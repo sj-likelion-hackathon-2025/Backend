@@ -2,32 +2,51 @@ package org.kwakmunsu.flowmate.domain.member.entity;
 
 import static java.util.Objects.requireNonNull;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.kwakmunsu.flowmate.global.entity.BaseTimeEntity;
 
+@Table(name = "member")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
+@Entity
 public class Member extends BaseTimeEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(name = "social_id", nullable = false)
     private String socialId;
 
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Enumerated(value = EnumType.STRING)
     private Grade grade;
 
+    @Column(nullable = false)
     private Long point;
 
+    @Column(name = "profile_img_url")
     private String profileImgUrl;
 
+    @Column(name = "refresh_token")
     private String refreshToken;
-
 
     private Member(String name, String email, String socialId, String profileImgUrl, Role role, Grade grade, Long point,
             String refreshToken) {
