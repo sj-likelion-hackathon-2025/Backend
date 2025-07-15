@@ -65,6 +65,15 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
+processResources.dependsOn('copyPrivate')
+
+tasks.register('copyPrivate', Copy) {
+    copy {
+        from './FlowMate_SUBMODULE'
+        include "*.yml"
+        into 'src/main/resources'
+    }
+}
 
 tasks.named('test') {
     useJUnitPlatform()
