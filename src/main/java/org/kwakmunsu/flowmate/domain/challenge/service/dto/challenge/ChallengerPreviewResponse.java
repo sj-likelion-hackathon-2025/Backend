@@ -1,4 +1,4 @@
-package org.kwakmunsu.flowmate.domain.challenge.service.dto;
+package org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -6,6 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record ChallengerPreviewResponse(
         @Schema(description = "챌린저 ID", example = "1")
         Long challengerId,
+
+        @Schema(description = "챌린지 인증 ID", example = "1")
+        Long certificationId,
 
         @Schema(description = "챌린저 이름", example = "장원영")
         String name,
@@ -16,7 +19,7 @@ public record ChallengerPreviewResponse(
         @Schema(description = "챌린저 각오", example = "전남친에게 복수하고 싶습니다.")
         String introduction,
 
-        @Schema(description = "인증 참여 여부", example ="UNVERIFIED, VERIFIED, PENDING" )
+        @Schema(description = "인증 참여 여부", example ="UNVERIFIED, VERIFIED, PENDING, REJECTED" )
         String certificationStatus
 ) {
 

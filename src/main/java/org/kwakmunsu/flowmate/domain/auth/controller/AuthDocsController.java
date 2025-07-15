@@ -1,5 +1,7 @@
 package org.kwakmunsu.flowmate.domain.auth.controller;
 
+import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.FORBIDDEN_ERROR;
+import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.INVALID_TOKEN;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.NOT_FOUND_TOKEN;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
@@ -7,6 +9,7 @@ import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.UNAUTHORIZ
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.flowmate.domain.auth.controller.dto.ReissueTokenRequest;
@@ -22,6 +25,13 @@ public abstract class AuthDocsController {
             summary = "Access, Refresh Token 재발급 요청 - JWT O",
             description = "리프레시 토큰을 이용해 새로운 Access Token 및 Refresh Token을 재발급합니다."
     )
+    @RequestBody(
+            description = "토큰 재발급 요청",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ReissueTokenRequest.class)
+            )
+    )
     @ApiResponse(
             responseCode = "200",
             description = "Access, Refresh Token 재발급 성공",
@@ -32,7 +42,8 @@ public abstract class AuthDocsController {
     )
     @ApiExceptions(values = {
             INVALID_TOKEN,
-            NOT_FOUND_TOKEN
+            NOT_FOUND_TOKEN,
+            INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<TokenResponse> reissue(ReissueTokenRequest request);
 
@@ -55,7 +66,9 @@ public abstract class AuthDocsController {
                     """
     )
     @ApiExceptions(values = {
-            UNAUTHORIZED_ERROR
+            UNAUTHORIZED_ERROR,
+            FORBIDDEN_ERROR,
+            INTERNAL_SERVER_ERROR
     })
     @GetMapping("/oauth2/authorization/kakao")
     public void kakao() {

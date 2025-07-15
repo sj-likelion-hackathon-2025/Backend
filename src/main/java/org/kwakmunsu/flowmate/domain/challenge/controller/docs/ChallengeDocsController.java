@@ -10,6 +10,7 @@ import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.UNAUTHORIZ
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -19,8 +20,8 @@ import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequ
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.SortBy;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.ChallengeDetailResponse;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -84,26 +85,26 @@ public abstract class ChallengeDocsController {
     @Operation(
             summary = "챌린지 목록 조회",
             description = """
-        ### 챌린지 목록 조회 API 안내
-
-        - **검색**
-          - `q` 파라미터로 챌린지 제목을 기준으로 검색할 수 있습니다.
-        - **정렬**
-          - `sortBy` 파라미터로 정렬 방식을 설정할 수 있습니다.
-          - POPULAR: 인기순, NEWEST(기본값): 최신순, OLDEST: 오래된 순
-        - **카테고리 필터**
-          - `interestCategory` 파라미터로 관심 카테고리로 필터링이 가능합니다.
-          - EXERCISE, STUDY, DIET, LIFESTYLE, FINANCE, PROJECT  정확한 값을 입력해주세요.
-        - **조회 타입 선택**
-          - `challengeListType` 파라미터로 목록 유형을 지정할 수 있습니다.
-          - RECRUITING(기본값): 모집중인 챌린지, MINE: 내가 참여한 챌린지
-        - **커서 페이징**
-          - `lastChallengeId` 파라미터로 Cursor 기반 페이징 처리가 가능합니다.
-          - Null 값은 처음부터 조회하며, 이후에는 마지막으로 조회된 챌린지 ID를 입력하여 다음 페이지를 조회합니다.
-        - 원하는 조건 조합으로 다양한 챌린지 목록을 조회할 수 있습니다.<br>
-        - 예시: `?q=운동&sortBy=POPULAR&interestCategory=EXERCISE&challengeListType=RECRUITING&lastChallengeId=10` <br>
-        - 파라미터의 정확한 값을 입력해주세요.
-        """
+                    ### 챌린지 목록 조회 API 안내
+                    
+                    - **검색**
+                      - `q` 파라미터로 챌린지 제목을 기준으로 검색할 수 있습니다.
+                    - **정렬**
+                      - `sortBy` 파라미터로 정렬 방식을 설정할 수 있습니다.
+                      - POPULAR: 인기순, NEWEST(기본값): 최신순, OLDEST: 오래된 순
+                    - **카테고리 필터**
+                      - `interestCategory` 파라미터로 관심 카테고리로 필터링이 가능합니다.
+                      - EXERCISE, STUDY, DIET, LIFESTYLE, FINANCE, PROJECT  정확한 값을 입력해주세요.
+                    - **조회 타입 선택**
+                      - `challengeListType` 파라미터로 목록 유형을 지정할 수 있습니다.
+                      - RECRUITING(기본값): 모집중인 챌린지, MINE: 내가 참여한 챌린지
+                    - **커서 페이징**
+                      - `lastChallengeId` 파라미터로 Cursor 기반 페이징 처리가 가능합니다.
+                      - Null 값은 처음부터 조회하며, 이후에는 마지막으로 조회된 챌린지 ID를 입력하여 다음 페이지를 조회합니다.
+                    - 원하는 조건 조합으로 다양한 챌린지 목록을 조회할 수 있습니다.<br>
+                    - 예시: `?q=운동&sortBy=POPULAR&interestCategory=EXERCISE&challengeListType=RECRUITING&lastChallengeId=10` <br>
+                    - 파라미터의 정확한 값을 입력해주세요.
+                    """
     )
     @ApiResponse(
             responseCode = "200",
@@ -159,6 +160,13 @@ public abstract class ChallengeDocsController {
             summary = "챌린지 상세 조회 - JWT O",
             description = "챌린지 상세 조회를 합니다. 챌린지 참여자만 접근 가능합니다."
     )
+    @Parameter(
+            name = "challengeId",
+            description = "상세조회 챌린지 ID",
+            required = true,
+            in = ParameterIn.PATH,
+            example = "42"
+    )
     @ApiResponse(
             responseCode = "200",
             description = "챌린지 상세 조회 성공",
@@ -186,6 +194,13 @@ public abstract class ChallengeDocsController {
                      </ul>
                     """
     )
+    @Parameter(
+            name = "challengeId",
+            description = "수정할 챌린지 ID",
+            required = true,
+            in = ParameterIn.PATH,
+            example = "42"
+    )
     @ApiResponse(
             responseCode = "204",
             description = "챌린지 수정 성공"
@@ -207,6 +222,13 @@ public abstract class ChallengeDocsController {
                          <li>챌린지의 상태가 모집중인 경우에만 삭제할 수 있습니다.</li>
                      </ul>
                     """
+    )
+    @Parameter(
+            name = "challengeId",
+            description = "삭제할 챌린지 ID",
+            required = true,
+            in = ParameterIn.PATH,
+            example = "42"
     )
     @ApiResponse(
             responseCode = "204",

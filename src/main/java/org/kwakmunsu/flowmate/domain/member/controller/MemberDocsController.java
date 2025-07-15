@@ -2,6 +2,7 @@ package org.kwakmunsu.flowmate.domain.member.controller;
 
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.BAD_REQUEST;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.DUPLICATE_NICKNAME;
+import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.NOT_FOUND_MEMBER;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
@@ -39,7 +40,8 @@ public abstract class MemberDocsController {
     )
     @ApiExceptions(values = {
             UNAUTHORIZED_ERROR,
-            NOT_FOUND_MEMBER
+            NOT_FOUND_MEMBER,
+            INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<MemberInfoResponse> getProfile(Long memberId);
 
@@ -58,7 +60,8 @@ public abstract class MemberDocsController {
     )
     @ApiExceptions(values = {
             BAD_REQUEST,
-            UNAUTHORIZED_ERROR
+            UNAUTHORIZED_ERROR,
+            INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Void> register(MemberProfileRequest request, Long memberId);
 
@@ -78,12 +81,20 @@ public abstract class MemberDocsController {
     @ApiExceptions(values = {
             BAD_REQUEST,
             UNAUTHORIZED_ERROR,
-            DUPLICATE_NICKNAME
+            DUPLICATE_NICKNAME,
+            INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Void> checkDuplicateName(String name, Long memberId);
 
     @Operation(
             summary = "회원 관심 카테고리 등록 - JWT O"
+    )
+    @RequestBody(
+            description = "회원 관심 카테고리 등록 요청",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MemberCategoryRegisterRequest.class)
+            )
     )
     @ApiResponse(
             responseCode = "200",
@@ -91,7 +102,8 @@ public abstract class MemberDocsController {
     )
     @ApiExceptions(values = {
             BAD_REQUEST,
-            UNAUTHORIZED_ERROR
+            UNAUTHORIZED_ERROR,
+            INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Void> registerCategory(MemberCategoryRegisterRequest request, Long memberId);
 
