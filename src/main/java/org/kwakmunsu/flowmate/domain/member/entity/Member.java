@@ -39,6 +39,10 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private Grade grade;
 
+    @Column(name = "social_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
     @Column(nullable = false)
     private Long point;
 
@@ -48,24 +52,35 @@ public class Member extends BaseTimeEntity {
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    private Member(String name, String email, String socialId, String profileImgUrl, Role role, Grade grade, Long point,
-            String refreshToken) {
+    private Member(
+            String name,
+            String email,
+            String socialId,
+            String profileImgUrl,
+            Role role,
+            Grade grade,
+            SocialType socialType,
+            Long point,
+            String refreshToken
+    ) {
         this.name = name;
         this.email = email;
         this.socialId = socialId;
         this.role = role;
         this.grade = grade;
+        this.socialType = socialType;
         this.point = point;
         this.profileImgUrl = profileImgUrl;
         this.refreshToken = refreshToken;
     }
 
-    public static Member createMember(String name, String email, String socialId, String profileImgUrl) {
+    public static Member createMember(String name, String email, String socialId, SocialType socialType, String profileImgUrl) {
         requireNonNull(name);
         requireNonNull(email);
         requireNonNull(socialId);
+        requireNonNull(socialType);
 
-        return new Member(name, email, socialId, profileImgUrl, Role.MEMBER, Grade.ROOKIE, 0L, null);
+        return new Member(name, email, socialId, profileImgUrl, Role.MEMBER, Grade.ROOKIE, socialType, 0L, null);
     }
 
     public static Member createAdmin(String name, String email, String socialId) {
@@ -73,7 +88,7 @@ public class Member extends BaseTimeEntity {
         requireNonNull(email);
         requireNonNull(socialId);
 
-        return new Member(name, email, socialId, null, Role.ADMIN, Grade.LEGEND, 1_000_000L, null);
+        return new Member(name, email, socialId, null, Role.ADMIN, Grade.LEGEND, SocialType.LOCAL, 1_000_000L, null);
     }
 
     public void updateBaseInfo(String name, String profileImgUrl) {
@@ -107,7 +122,11 @@ public class Member extends BaseTimeEntity {
         updateGrade();
     }
 
-    private void updateName(String name) {
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updateName(String name) {
         this.name = name;
     }
 
@@ -118,5 +137,4 @@ public class Member extends BaseTimeEntity {
     private void updateGrade() {
         this.grade = Grade.getGradeByPoint(this.point);
     }
-
 }
