@@ -2,7 +2,7 @@ name: flowmate
 on:
   push:
     branches:
-      - Fix/#14
+      - main
   pull_request:
     branches:
       - main
