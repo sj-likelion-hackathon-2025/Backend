@@ -1,4 +1,4 @@
-package org.kwakmunsu.flowmate.domain.challenge.service.dto;
+package org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
@@ -21,7 +21,7 @@ public record ChallengeDetailResponse(
         String endDate,
 
         @Schema(description = "챌린지 참여자 리스트")
-        List<ChallengerPreviewResponse> responses
+        List<ChallengerPreviewResponse> challengerPreviewResponses
 ) {
 
 }

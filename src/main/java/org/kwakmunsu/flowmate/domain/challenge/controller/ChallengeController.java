@@ -5,8 +5,8 @@ import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequ
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.SortBy;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.ChallengeDetailResponse;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.global.annotation.AuthMember;
 import org.springframework.http.ResponseEntity;
