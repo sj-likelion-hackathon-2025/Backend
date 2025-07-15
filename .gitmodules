@@ -1,0 +1,3 @@
+[submodule "FlowMate_SUBMODULE"]
+	path = FlowMate_SUBMODULE
+	url = https://github.com/sj-likelion-hackathon-2025/FlowMate_SUBMODULE.git
