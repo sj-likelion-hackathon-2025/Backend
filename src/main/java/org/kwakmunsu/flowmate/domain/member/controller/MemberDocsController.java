@@ -2,6 +2,7 @@ package org.kwakmunsu.flowmate.domain.member.controller;
 
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.BAD_REQUEST;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.DUPLICATE_NICKNAME;
+import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.NOT_FOUND_MEMBER;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +20,7 @@ import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Member Controller", description = "Member API")
+@Tag(name = "Member API", description = "회원 관련 API 문서입니다.")
 public abstract class MemberDocsController {
 
     @Operation(
@@ -30,14 +31,15 @@ public abstract class MemberDocsController {
     )
     @ApiResponse(
             responseCode = "200",
-            description = "내 정보 조회 성공",
+            description = "프로필 정보 조회 성공",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = MemberInfoResponse.class)
             )
     )
     @ApiExceptions(values = {
-            UNAUTHORIZED_ERROR
+            UNAUTHORIZED_ERROR,
+            NOT_FOUND_MEMBER
     })
     public abstract ResponseEntity<MemberInfoResponse> getProfile(Long memberId);
 
@@ -54,9 +56,10 @@ public abstract class MemberDocsController {
                     schema = @Schema(implementation = MemberProfileRequest.class)
             )
     )
-    @ApiExceptions(values =
+    @ApiExceptions(values = {
+            BAD_REQUEST,
             UNAUTHORIZED_ERROR
-    )
+    })
     public abstract ResponseEntity<Void> register(MemberProfileRequest request, Long memberId);
 
     @Operation(
@@ -73,6 +76,7 @@ public abstract class MemberDocsController {
             description = "닉네임 중복 확인 성공"
     )
     @ApiExceptions(values = {
+            BAD_REQUEST,
             UNAUTHORIZED_ERROR,
             DUPLICATE_NICKNAME
     })
