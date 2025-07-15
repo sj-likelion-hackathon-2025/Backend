@@ -1,4 +1,4 @@
-package org.kwakmunsu.flowmate.domain.member.service;
+package org.kwakmunsu.flowmate.domain.member.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberCategoryRegisterRequest;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileRequest;
-import org.kwakmunsu.flowmate.domain.member.service.MemberInfoResponse;
+import org.kwakmunsu.flowmate.domain.member.service.dto.MemberInfoResponse;
 import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

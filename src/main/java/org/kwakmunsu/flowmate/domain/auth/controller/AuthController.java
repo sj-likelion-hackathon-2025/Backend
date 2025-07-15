@@ -1,6 +1,7 @@
 package org.kwakmunsu.flowmate.domain.auth.controller;
 
 import org.kwakmunsu.flowmate.domain.auth.controller.dto.ReissueTokenRequest;
+import org.kwakmunsu.flowmate.global.jwt.dto.TokenResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

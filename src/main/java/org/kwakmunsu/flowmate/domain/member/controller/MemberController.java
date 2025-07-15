@@ -2,7 +2,7 @@ package org.kwakmunsu.flowmate.domain.member.controller;
 
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberCategoryRegisterRequest;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileRequest;
-import org.kwakmunsu.flowmate.domain.member.service.MemberInfoResponse;
+import org.kwakmunsu.flowmate.domain.member.service.dto.MemberInfoResponse;
 import org.kwakmunsu.flowmate.global.annotation.AuthMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

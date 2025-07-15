@@ -13,7 +13,7 @@ class MemberTest {
 
     @BeforeEach
     void setUp() {
-        member = Member.createMember("kwak", "iii148389@gmail.com", "123445677", "testProfileUrl");
+        member = Member.createMember("kwak", "iii148389@gmail.com", "123445677", SocialType.KAKAO, "testProfileUrl");
     }
 
     @DisplayName("회원을 생성한다")

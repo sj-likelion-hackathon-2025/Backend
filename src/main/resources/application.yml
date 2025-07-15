@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    default: local-env
+    group:
+      local-env: local, swagger, oauth2
+      prod-env: prod, swagger, oauth2

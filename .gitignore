@@ -193,6 +193,7 @@ gradle-app.setting
 
 *.yml
 !.github/workflows/deploy.yml
+!application.yml
 
 src/main/generated
 
