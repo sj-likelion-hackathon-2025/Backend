@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.kwakmunsu.flowmate.domain.auth.controller.dto.ReissueTokenRequest;
 import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
+import org.kwakmunsu.flowmate.global.jwt.dto.TokenResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
