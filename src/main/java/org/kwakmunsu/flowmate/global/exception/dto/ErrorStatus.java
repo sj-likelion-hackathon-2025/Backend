@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorStatus {
+
     // <=============== 공통 ===============>
     BAD_REQUEST(400, "ERROR - 잘못된 요청입니다."),
 
@@ -21,6 +22,8 @@ public enum ErrorStatus {
     BAD_REQUEST_CHALLENGE(400, "ERROR - 잘못된 챌린지 요청"),
     BAD_REQUEST_APPLY(400, "ERROR - 잘못된 신청입니다."),
     OVER_CAPACITY_CHALLENGE(422, "ERROR - 챌린지 신청 인원이 초과되었습니다."),
+    BAD_REQUEST_APPLY(400, "ERROR - 잘못된 신청입니다."),
+
 
     // <=============== JWT ===============>
     INVALID_TOKEN(401,"ERROR - 유효하지 않은 토큰입니다."),
