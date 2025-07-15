@@ -7,17 +7,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorStatus {
 
+    // <=============== 공통 ===============>
+    BAD_REQUEST(400, "ERROR - 잘못된 요청입니다."),
+
     // <=============== 회원 ===============>
     NOT_FOUND_MEMBER(404, "ERROR - 회원을 찾을 수 없습니다."),
     BAD_REQUEST_MEMBER(400, "ERROR - 잘못된 회원 요청"),
     DUPLICATE_NICKNAME(409, "ERROR - 중복되는 닉네임입니다."),
+    MODIFY_UNAUTHORIZED(401, "ERROR - 수정 권한이 없습니다."),
+    DELETE_UNAUTHORIZED(401, "ERROR - 삭제 권한이 없습니다."),
 
     // <=============== 챌린지 ===============>
     NOT_FOUND_CHALLENGE(404, "ERROR - 해당 챌린지를 찾을 수 없습니다."),
     BAD_REQUEST_CHALLENGE(400, "ERROR - 잘못된 챌린지 요청"),
-    MODIFY_UNAUTHORIZED_CHALLENGE(401, "ERROR - 수정 권한이 없습니다."),
-    DELETE_UNAUTHORIZED_CHALLENGE(401, "ERROR - 삭제 권한이 없습니다."),
     BAD_REQUEST_APPLY(400, "ERROR - 잘못된 신청입니다."),
+    OVER_CAPACITY_CHALLENGE(422, "ERROR - 챌린지 신청 인원이 초과되었습니다."),
+    BAD_REQUEST_APPLY(400, "ERROR - 잘못된 신청입니다."),
+
 
     // <=============== JWT ===============>
     INVALID_TOKEN(401,"ERROR - 유효하지 않은 토큰입니다."),
@@ -34,8 +40,6 @@ public enum ErrorStatus {
     UNAUTHORIZED_ERROR(401, "ERROR - 인증되지 않은 사용자입니다."),
     FORBIDDEN_ERROR(403, "ERROR - 접근 권한이 없습니다."),
     BAD_REQUEST_ARGUMENT(400, "ERROR - 유효하지 않은 인자입니다."),
-    MODIFY_UNAUTHORIZED(401, "ERROR - 수정 권한이 없습니다."),
-    DELETE_UNAUTHORIZED(401, "ERROR - 삭제 권한이 없습니다."),
     ;
 
     private final int statusCode;
