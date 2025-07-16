@@ -20,6 +20,7 @@ import org.kwakmunsu.flowmate.domain.member.service.dto.MemberInfoResponse;
 import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Member API", description = "회원 관련 API 문서입니다.")
 public abstract class MemberDocsController {
@@ -63,7 +64,15 @@ public abstract class MemberDocsController {
             UNAUTHORIZED_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> register(MemberProfileRequest request, Long memberId);
+    public abstract ResponseEntity<Void> register(MemberProfileRequest request,
+            @RequestBody(
+                    description = "사용자 프로필 사진  (이미지)",
+                    required = true,
+                    content = @Content(
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            schema = @Schema(type = "string", format = "binary")
+                    )
+            )MultipartFile image, Long memberId);
 
     @Operation(
             summary = "닉네임 중복 확인 - JWT O"

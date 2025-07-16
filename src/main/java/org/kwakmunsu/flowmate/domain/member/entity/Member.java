@@ -92,12 +92,9 @@ public class Member extends BaseTimeEntity {
     }
 
     public void updateBaseInfo(String name, String profileImgUrl) {
-        if (!name.equals(this.name)) {
-            updateName(name);
-        }
-        if (!profileImgUrl.equals(this.profileImgUrl)) {
-            updateProfileImgUrl(profileImgUrl);
-        }
+        updateName(name);
+        updateProfileImgUrl(profileImgUrl);
+
     }
 
     public void updateRefreshToken(String refreshToken) {
