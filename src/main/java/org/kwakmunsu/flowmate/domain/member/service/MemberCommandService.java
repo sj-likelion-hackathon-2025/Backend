@@ -31,7 +31,7 @@ public class MemberCommandService {
     public void updateProfile(MemberProfileServiceRequest request) {
         Member member = memberRepository.findById(request.memberId());
 
-        if (!isBasicProfileImage(member)) {
+        if (!isNullProfileImage(member)) {
             s3Provider.deleteImage(member.getProfileImgUrl());
         }
         if (isEmptyRequestProfileImage(request)) {
@@ -57,8 +57,8 @@ public class MemberCommandService {
 
     }
 
-    private boolean isBasicProfileImage(Member member) {
-        return member.getProfileImgUrl() != null;
+    private boolean isNullProfileImage(Member member) {
+        return member.getProfileImgUrl() == null;
     }
 
     private boolean isEmptyRequestProfileImage(MemberProfileServiceRequest request) {
