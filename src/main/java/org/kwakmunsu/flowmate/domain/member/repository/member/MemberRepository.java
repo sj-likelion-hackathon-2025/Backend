@@ -1,4 +1,4 @@
-package org.kwakmunsu.flowmate.domain.member.repository;
+package org.kwakmunsu.flowmate.domain.member.repository.member;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

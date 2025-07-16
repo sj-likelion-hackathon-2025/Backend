@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
 import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
-import org.kwakmunsu.flowmate.domain.member.repository.MemberRepository;
+import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.kwakmunsu.flowmate.global.oauth2.dto.CustomOAuth2Member;
 import org.kwakmunsu.flowmate.global.oauth2.userinfo.OAuth2UserInfo;
 import org.kwakmunsu.flowmate.global.oauth2.userinfo.impl.KakaoOAuth2UserInfo;

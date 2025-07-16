@@ -54,9 +54,13 @@ public class MemberController extends MemberDocsController {
 
     @Override
     @PostMapping("/categories")
-    public ResponseEntity<Void> registerCategory(@RequestBody MemberCategoryRegisterRequest request, @AuthMember Long memberId) {
-        return null;
-    }
+    public ResponseEntity<Void> registerCategory(
+            @Valid @RequestBody MemberCategoryRegisterRequest request,
+            @AuthMember Long memberId
+    ) {
+        memberCommandService.registerCategory(request.toServiceRequest(memberId));
 
+        return ResponseEntity.ok().build();
+    }
 
 }

@@ -4,13 +4,17 @@ import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.BAD_REQUES
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberCategoryRegisterRequest;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileRequest;
+import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.service.MemberCommandService;
 import org.kwakmunsu.flowmate.domain.member.service.MemberQueryService;
 import org.kwakmunsu.flowmate.global.exception.BadRequestException;
@@ -90,15 +94,15 @@ class MemberControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
-    
+
     @DisplayName("회원 닉네임 중복 확인 API")
     @Test
     void checkDuplicationName() throws Exception {
         String nickname = "kwakmunsu";
 
         mockMvc.perform(get("/members/check-name")
-                                .param("name", nickname)
-                                .contentType(MediaType.APPLICATION_JSON)
+                        .param("name", nickname)
+                        .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -115,6 +119,65 @@ class MemberControllerTest {
         mockMvc.perform(get("/members/check-name")
                         .param("name", nickname)
                         .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @TestMember
+    @DisplayName("회원 관심 카테고리 등록 기능")
+    @Test
+    void registerCategory() throws Exception {
+        List<String> categories = List.of(
+                InterestCategory.EXERCISE.name(),
+                InterestCategory.DIET.name(),
+                InterestCategory.FINANCE.name()
+        );
+        MemberCategoryRegisterRequest request = new MemberCategoryRegisterRequest(categories);
+
+        mockMvc.perform(
+                        post("/members/categories")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @TestMember
+    @DisplayName("회원 관심 카테고리 개수 3개 미만으로 실패 ")
+    @Test
+    void failRegisterCategory() throws Exception {
+        List<String> categories = List.of(
+                InterestCategory.EXERCISE.name(),
+                InterestCategory.DIET.name()
+        );
+        MemberCategoryRegisterRequest request = new MemberCategoryRegisterRequest(categories);
+
+        mockMvc.perform(
+                        post("/members/categories")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @TestMember
+    @DisplayName("잘못된 카테고리 요청으로 실패 ")
+    @Test
+    void failInvalidCategoryTypeRegisterCategory() throws Exception {
+        List<String> categories = List.of(
+                "invalid_category",
+                "invalid_category",
+                "invalid_category"
+        );
+        MemberCategoryRegisterRequest request = new MemberCategoryRegisterRequest(categories);
+
+        mockMvc.perform(
+                        post("/members/categories")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest());
