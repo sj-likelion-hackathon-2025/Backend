@@ -4,15 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileServiceRequest;
+import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
+import org.kwakmunsu.flowmate.domain.member.entity.MemberCategory;
 import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
-import org.kwakmunsu.flowmate.domain.member.repository.MemberRepository;
+import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
+import org.kwakmunsu.flowmate.domain.member.repository.membercategory.MemberCategoryRepository;
+import org.kwakmunsu.flowmate.domain.member.service.dto.MemberCategoryRegisterServiceRequest;
 import org.kwakmunsu.flowmate.infrastructure.s3.S3Provider;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,13 +35,17 @@ class MemberCommandServiceTest {
     @Mock
     MemberRepository memberRepository;
 
+    @Mock
+    MemberCategoryRepository memberCategoryRepository;
+
     @InjectMocks
     MemberCommandService memberCommandService;
 
     @DisplayName("리프레쉬 토큰 업데이트")
     @Test
     void updateRefreshToken() {
-        Member member = Member.createMember("kwak","iii148389@naver.com", "12345678", SocialType.KAKAO, "https://example.com/profile.jpg");
+        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO,
+                "https://example.com/profile.jpg");
         ReflectionTestUtils.setField(member, "id", 1L);
 
         given(memberRepository.findById(1L)).willReturn(member);
@@ -52,7 +62,8 @@ class MemberCommandServiceTest {
                 "file", "test.jpg", "image/jpeg", "test content".getBytes()
         );
         MemberProfileServiceRequest request1 = new MemberProfileServiceRequest(file, "update", 1L);
-        Member member = Member.createMember("kwak","iii148389@naver.com", "12345678", SocialType.KAKAO, "https://example.com/profile.jpg");
+        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO,
+                "https://example.com/profile.jpg");
 
         given(memberRepository.findById(request1.memberId())).willReturn(member);
         given(s3Provider.uploadImage(file)).willReturn("https://new-upload-url.com/image.jpg");
@@ -67,7 +78,8 @@ class MemberCommandServiceTest {
     @Test
     void updateBasicProfile() {
         MemberProfileServiceRequest request = new MemberProfileServiceRequest(null, "update", 1L);
-        Member member = Member.createMember("kwak","iii148389@naver.com", "12345678", SocialType.KAKAO, "https://example.com/profile.jpg");
+        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO,
+                "https://example.com/profile.jpg");
 
         given(memberRepository.findById(request.memberId())).willReturn(member);
 
@@ -87,7 +99,7 @@ class MemberCommandServiceTest {
                 "file", "test.jpg", "image/jpeg", "test content".getBytes()
         );
         MemberProfileServiceRequest request = new MemberProfileServiceRequest(file, "update", 1L);
-        Member member = Member.createMember("kwak","iii148389@naver.com", "12345678", SocialType.KAKAO, null);
+        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO, null);
 
         assertThat(member.getProfileImgUrl()).isNull();
 
@@ -99,6 +111,22 @@ class MemberCommandServiceTest {
         assertThat(member.getName()).isEqualTo(request.name());
         assertThat(member.getProfileImgUrl()).isEqualTo("https://new-upload-url.com/image.jpg");
         verify(s3Provider, never()).deleteImage(any());
+    }
+
+    @DisplayName("회원 카테고리 정보 등록")
+    @Test
+    void registerCategory() {
+        List<InterestCategory> interestCategories =
+                List.of(
+                        InterestCategory.EXERCISE,
+                        InterestCategory.DIET,
+                        InterestCategory.FINANCE
+                );
+        MemberCategoryRegisterServiceRequest request = new MemberCategoryRegisterServiceRequest(interestCategories, 1L);
+
+        memberCommandService.registerCategory(request);
+
+        verify(memberCategoryRepository, times(interestCategories.size())).save(any(MemberCategory.class));
     }
 
 }

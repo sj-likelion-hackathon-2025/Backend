@@ -1,13 +1,17 @@
 package org.kwakmunsu.flowmate.domain.member.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberCategoryRegisterRequest;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileRequest;
+import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.service.MemberCommandService;
 import org.kwakmunsu.flowmate.security.TestMember;
 import org.kwakmunsu.flowmate.security.TestSecurityConfig;
@@ -68,12 +72,6 @@ class MemberControllerTest {
     void failedUpdateProfile() throws Exception {
         // given
         MemberProfileRequest request = new MemberProfileRequest(""); // 빈 닉네임으로 요청
-        MockMultipartFile profileImage = new MockMultipartFile(
-                "image",
-                "profile.jpg",
-                "image/jpeg",
-                "profile image content".getBytes()
-        );
         MockMultipartFile requestPart = new MockMultipartFile(
                 "request",
                 "request.json",
@@ -84,12 +82,71 @@ class MemberControllerTest {
         mockMvc.perform(
                         multipart("/members")
                                 .file(requestPart)
-//                                .file(profileImage)
                                 .contentType(MediaType.MULTIPART_FORM_DATA)
                                 .content(objectMapper.writeValueAsString(request))
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
+
+    @TestMember
+    @DisplayName("회원 관심 카테고리 등록 기능")
+    @Test
+    void registerCategory() throws Exception {
+        List<String> categories = List.of(
+                InterestCategory.EXERCISE.name(),
+                InterestCategory.DIET.name(),
+                InterestCategory.FINANCE.name()
+        );
+        MemberCategoryRegisterRequest request = new MemberCategoryRegisterRequest(categories);
+
+        mockMvc.perform(
+                        post("/members/categories")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @TestMember
+    @DisplayName("회원 관심 카테고리 개수 3개 미만으로 실패 ")
+    @Test
+    void failRegisterCategory() throws Exception {
+        List<String> categories = List.of(
+                InterestCategory.EXERCISE.name(),
+                InterestCategory.DIET.name()
+        );
+        MemberCategoryRegisterRequest request = new MemberCategoryRegisterRequest(categories);
+
+        mockMvc.perform(
+                        post("/members/categories")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @TestMember
+    @DisplayName("잘못된 카테고리 요청으로 실패 ")
+    @Test
+    void failInvalidCategoryTypeRegisterCategory() throws Exception {
+        List<String> categories = List.of(
+                "invalid_category",
+                "invalid_category",
+                "invalid_category"
+        );
+        MemberCategoryRegisterRequest request = new MemberCategoryRegisterRequest(categories);
+
+        mockMvc.perform(
+                        post("/members/categories")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
 
 }
