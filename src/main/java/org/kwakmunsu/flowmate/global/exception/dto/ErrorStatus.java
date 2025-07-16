@@ -17,6 +17,9 @@ public enum ErrorStatus {
     MODIFY_UNAUTHORIZED(401, "ERROR - 수정 권한이 없습니다."),
     DELETE_UNAUTHORIZED(401, "ERROR - 삭제 권한이 없습니다."),
 
+    // <=============== 관심 카테고리 ===============>
+    INVALID_CATEGORY(400, "ERROR - 유효하지 않은 카테고리 값이 포함되어 있습니다"),
+
     // <=============== 챌린지 ===============>
     NOT_FOUND_CHALLENGE(404, "ERROR - 해당 챌린지를 찾을 수 없습니다."),
     BAD_REQUEST_CHALLENGE(400, "ERROR - 잘못된 챌린지 요청"),
