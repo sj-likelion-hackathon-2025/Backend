@@ -72,7 +72,7 @@ public abstract class MemberDocsController {
                             mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(type = "string", format = "binary")
                     )
-            )MultipartFile image, Long memberId);
+            ) MultipartFile image, Long memberId);
 
     @Operation(
             summary = "닉네임 중복 확인 - JWT O"
@@ -93,7 +93,7 @@ public abstract class MemberDocsController {
             DUPLICATE_NICKNAME,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> checkDuplicateName(String name, Long memberId);
+    public abstract ResponseEntity<Void> checkDuplicateName(String name);
 
     @Operation(
             summary = "회원 관심 카테고리 등록 - JWT O"

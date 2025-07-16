@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberCategoryRegisterRequest;
 import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileRequest;
 import org.kwakmunsu.flowmate.domain.member.service.MemberCommandService;
+import org.kwakmunsu.flowmate.domain.member.service.MemberQueryService;
 import org.kwakmunsu.flowmate.domain.member.service.dto.MemberInfoResponse;
 import org.kwakmunsu.flowmate.global.annotation.AuthMember;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController extends MemberDocsController {
 
     private final MemberCommandService memberCommandService;
+    private final MemberQueryService memberQueryService;
 
     @Override
     @GetMapping
@@ -44,8 +46,10 @@ public class MemberController extends MemberDocsController {
 
     @Override
     @GetMapping("/check-name")
-    public ResponseEntity<Void> checkDuplicateName(@RequestParam String name, @AuthMember Long memberId) {
-        return null;
+    public ResponseEntity<Void> checkDuplicateName(@RequestParam String name) {
+        memberQueryService.checkDuplicateName(name);
+
+        return ResponseEntity.ok().build();
     }
 
     @Override
