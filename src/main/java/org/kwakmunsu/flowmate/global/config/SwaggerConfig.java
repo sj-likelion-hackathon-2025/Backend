@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
+import org.kwakmunsu.flowmate.global.dto.ExampleHolder;
 import org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus;
 import org.kwakmunsu.flowmate.global.exception.dto.response.ErrorResponse;
 import org.springdoc.core.customizers.OperationCustomizer;
