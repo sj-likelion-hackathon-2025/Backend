@@ -38,6 +38,7 @@ public enum ErrorStatus {
     UNAUTHORIZED_ERROR(401, "ERROR - 인증되지 않은 사용자입니다."),
     FORBIDDEN_ERROR(403, "ERROR - 접근 권한이 없습니다."),
     BAD_REQUEST_ARGUMENT(400, "ERROR - 유효하지 않은 인자입니다."),
+    EMPTY_SECURITY_CONTEXT(401,"Security Context 에 인증 정보가 없습니다.")
     ;
 
     private final int statusCode;
