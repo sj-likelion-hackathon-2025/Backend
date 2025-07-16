@@ -1,7 +1,7 @@
 package org.kwakmunsu.flowmate.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
-import org.kwakmunsu.flowmate.domain.member.repository.MemberRepository;
+import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.kwakmunsu.flowmate.global.exception.BadRequestException;
 import org.kwakmunsu.flowmate.global.exception.DuplicationException;
 import org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus;
