@@ -26,4 +26,7 @@ public class MemberRepository {
         return memberJpaRepository.findBySocialId(socialId);
     }
 
+    public boolean existsByName(String name) {
+        return memberJpaRepository.existsByName(name);
+    }
 }
