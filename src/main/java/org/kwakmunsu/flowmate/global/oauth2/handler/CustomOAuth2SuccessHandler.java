@@ -11,7 +11,7 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.flowmate.domain.member.entity.Role;
-import org.kwakmunsu.flowmate.domain.member.service.MemberCommendService;
+import org.kwakmunsu.flowmate.domain.member.service.MemberCommandService;
 import org.kwakmunsu.flowmate.global.jwt.dto.TokenResponse;
 import org.kwakmunsu.flowmate.global.jwt.provider.JwtProvider;
 import org.kwakmunsu.flowmate.global.oauth2.dto.CustomOAuth2Member;
@@ -26,7 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
-    private final MemberCommendService memberCommendService;
+    private final MemberCommandService memberCommandService;
 
     @Override
     public void onAuthenticationSuccess(
@@ -37,7 +37,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         CustomOAuth2Member oAuth2Member = (CustomOAuth2Member) authentication.getPrincipal();
         TokenResponse tokenResponse = jwtProvider.createTokens(oAuth2Member.getMemberId(), oAuth2Member.getRole());
 
-        memberCommendService.updateRefreshToken(oAuth2Member.getMemberId(), tokenResponse.refreshToken());
+        memberCommandService.updateRefreshToken(oAuth2Member.getMemberId(), tokenResponse.refreshToken());
         log.info("소셜 로그인 성공: {} ", oAuth2Member.getName());
 
         String redirectUrl = createRedirectUrl(tokenResponse, oAuth2Member.getRole());

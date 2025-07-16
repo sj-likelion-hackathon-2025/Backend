@@ -1,14 +1,13 @@
 package org.kwakmunsu.flowmate.infrastructure.s3;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kwakmunsu.flowmate.global.exception.InternalServerException;
 import org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -19,7 +18,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
+@Component
 public class S3Provider {
 
     private final S3Client s3Client;
@@ -41,11 +40,7 @@ public class S3Provider {
         return getFileUrl(fileName);
     }
 
-    public void deleteImages(List<String> files) {
-        files.forEach(this::deleteImage);
-    }
-
-    private void deleteImage(String imageUrl) {
+    public void deleteImage(String imageUrl) {
         log.info("삭제할 이미지 url: {}", imageUrl);
         try {
             DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()

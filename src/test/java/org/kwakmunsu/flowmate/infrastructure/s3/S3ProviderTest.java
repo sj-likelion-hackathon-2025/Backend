@@ -9,7 +9,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.net.URL;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
-import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Utilities;
@@ -90,11 +88,11 @@ class S3ProviderTest {
     @DisplayName("이미지 삭제 성공")
     @Test
     void deleteImages() {
-        List<String> files = List.of("file1.jpg", "file2.jpg");
+        String file = "file1.jpg";
 
-        s3Provider.deleteImages(files);
+        s3Provider.deleteImage(file);
 
-        verify(s3Client, times(2)).deleteObject(any(DeleteObjectRequest.class));
+        verify(s3Client, times(1)).deleteObject(any(DeleteObjectRequest.class));
     }
 
 }
