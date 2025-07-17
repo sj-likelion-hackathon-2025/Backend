@@ -29,4 +29,10 @@ public class MemberRepository {
     public boolean existsByName(String name) {
         return memberJpaRepository.existsByName(name);
     }
+
+    public Member findByRefreshToken(String refreshToken) {
+        return memberJpaRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.NOT_FOUND_TOKEN));
+    }
+
 }

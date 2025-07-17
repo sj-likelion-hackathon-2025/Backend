@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.kwakmunsu.flowmate.domain.member.repository.MemberRepository;
+import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.kwakmunsu.flowmate.global.exception.DuplicationException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
