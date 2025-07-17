@@ -1,13 +1,19 @@
 package org.kwakmunsu.flowmate.domain.member.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kwakmunsu.flowmate.domain.member.entity.Member;
+import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
+import org.kwakmunsu.flowmate.domain.member.service.dto.MemberInfoResponse;
 import org.kwakmunsu.flowmate.global.exception.DuplicationException;
+import org.kwakmunsu.flowmate.global.exception.NotFoundException;
+import org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,6 +26,27 @@ class MemberQueryServiceTest {
 
     @InjectMocks
     MemberQueryService memberQueryService;
+
+    @DisplayName("회원 기본 정보를 조회한다")
+    @Test
+    void getProfile() {
+        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO, "profileImageUrl");
+        given(memberRepository.findById(1L)).willReturn(member);
+
+        MemberInfoResponse profile = memberQueryService.getProfile(1L);
+
+        assertThat(profile).isNotNull();
+        assertThat(profile.profileImageUrl()).isEqualTo("profileImageUrl");
+    }
+
+    @DisplayName("존재하지 않는 회원 조회 시 예외를 던진다.")
+    @Test
+    void failedGetProfile() {
+        given(memberRepository.findById(1L)).willThrow(new NotFoundException(ErrorStatus.NOT_FOUND_MEMBER));
+
+        assertThatThrownBy(() -> memberQueryService.getProfile(1L))
+            .isInstanceOf(NotFoundException.class);
+    }
 
     @DisplayName("중복되지 않은 회원 닉네임")
     @Test

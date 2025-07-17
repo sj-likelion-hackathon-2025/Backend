@@ -1,11 +1,13 @@
 package org.kwakmunsu.flowmate.domain.member.controller;
 
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.BAD_REQUEST;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +19,7 @@ import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.service.MemberCommandService;
 import org.kwakmunsu.flowmate.domain.member.service.MemberQueryService;
+import org.kwakmunsu.flowmate.domain.member.service.dto.MemberInfoResponse;
 import org.kwakmunsu.flowmate.global.exception.BadRequestException;
 import org.kwakmunsu.flowmate.security.TestMember;
 import org.kwakmunsu.flowmate.security.TestSecurityConfig;
@@ -43,6 +46,21 @@ class MemberControllerTest {
 
     @MockitoBean
     MemberQueryService memberQueryService;
+
+    @TestMember
+    @DisplayName("회원의 기본 정보를 조회한다")
+    @Test
+    void getProfile() throws Exception{
+
+        MemberInfoResponse response = new MemberInfoResponse("profileImageUrl", "kwakmunsu", "ROOKIE", 10L);
+        given(memberQueryService.getProfile(1L)).willReturn(response);
+
+        mockMvc.perform(get("/members"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(response.name()))
+                .andExpect(jsonPath("$.point").value(response.point()));
+    }
 
     @TestMember
     @DisplayName("회원 프로필 업데이트 테스트")
