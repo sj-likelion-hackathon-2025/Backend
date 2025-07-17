@@ -61,7 +61,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // 기존에 있던 회원이더라도 이메일이나 닉네임이 변경되었을 수도 있으니 업데이트
     private Member updateMember(Member member, OAuth2UserInfo userInfo) {
-        member.updateName(userInfo.getName());
+        member.updateBaseInfo(userInfo.getName(), userInfo.getProfileUrl());
         member.updateEmail(userInfo.getEmail());
 
         return member;
