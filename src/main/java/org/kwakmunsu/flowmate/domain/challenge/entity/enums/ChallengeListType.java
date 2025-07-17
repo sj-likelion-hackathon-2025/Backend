@@ -1,4 +1,4 @@
-package org.kwakmunsu.flowmate.domain.challenge.entity;
+package org.kwakmunsu.flowmate.domain.challenge.entity.enums;
 
 public enum ChallengeListType {
 

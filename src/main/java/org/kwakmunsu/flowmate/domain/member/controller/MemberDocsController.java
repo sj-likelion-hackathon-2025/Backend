@@ -50,6 +50,7 @@ public abstract class MemberDocsController {
             summary = "프로필 정보 등록 요청 - JWT O",
             description = """
                     프로필 사진, 이름 입력해 요청합니다.
+                    마이페이지에서 프로필 변경 시 해당 API를 사용합니다.
                     """
     )
     @RequestBody(
