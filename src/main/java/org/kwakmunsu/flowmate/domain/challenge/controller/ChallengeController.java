@@ -1,10 +1,13 @@
 package org.kwakmunsu.flowmate.domain.challenge.controller;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.flowmate.domain.challenge.controller.docs.ChallengeDocsController;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequest;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
+import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
@@ -21,13 +24,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/challenges")
+@RequiredArgsConstructor
 @RestController
 public class ChallengeController extends ChallengeDocsController {
 
+    private final ChallengeCommandService challengeCommandService;
+
     @Override
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody ChallengeCreateRequest request, @AuthMember Long memberId) {
-        return null;
+    public ResponseEntity<Void> create(@Valid @RequestBody ChallengeCreateRequest request, @AuthMember Long memberId) {
+        challengeCommandService.create(request.toServiceRequest(memberId));
+
+        return ResponseEntity.ok().build();
     }
 
     @Override
