@@ -29,7 +29,9 @@ public class MemberController extends MemberDocsController {
     @Override
     @GetMapping
     public ResponseEntity<MemberInfoResponse> getProfile(@AuthMember Long memberId) {
-        return null;
+        MemberInfoResponse response = memberQueryService.getProfile(memberId);
+
+        return ResponseEntity.ok(response);
     }
 
     @Override
