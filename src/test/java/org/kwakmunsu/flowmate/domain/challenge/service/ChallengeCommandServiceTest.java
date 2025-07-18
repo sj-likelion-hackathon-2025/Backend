@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.flowmate.domain.challenge.entity.Challenge;
+import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeFixture;
 import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeParticipant;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.ChallengeRepository;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challengeParticipant.ChallengeParticipantRepository;
@@ -34,26 +35,13 @@ class ChallengeCommandServiceTest {
     @DisplayName("챌린지 생성에 성공한다")
     @Test
     void create() {
-        ChallengeCreateServiceRequest request = getChallengeCreateServiceRequest();
+        ChallengeCreateServiceRequest request = ChallengeFixture.createChallengeCreateServiceRequest();
 
         challengeCommandService.create(request);
 
         verify(challengeRepository).save(any(Challenge.class));
         verify(memberRepository).findById(request.memberId());
         verify(challengeParticipantRepository).save(any(ChallengeParticipant.class));
-    }
-
-    private ChallengeCreateServiceRequest getChallengeCreateServiceRequest() {
-        return ChallengeCreateServiceRequest.builder()
-                .title("Test Challenge")
-                .introduction("Test Introduction")
-                .category("DIET")
-                .startDate("2023-01-01")
-                .endDate("2023-01-31")
-                .rule("Test Rule")
-                .maxParticipants(4L)
-                .memberId(1L)
-                .build();
     }
 
 }

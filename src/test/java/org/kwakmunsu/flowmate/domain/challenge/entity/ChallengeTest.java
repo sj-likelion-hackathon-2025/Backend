@@ -1,7 +1,6 @@
 package org.kwakmunsu.flowmate.domain.challenge.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.kwakmunsu.flowmate.global.util.TimeConverter.stringToDate;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,18 +12,18 @@ class ChallengeTest {
     @DisplayName("챌린지 생성")
     @Test
     void create() {
-        ChallengeCreateDomainRequest request = getChallengeCreateDomainRequest();
+        ChallengeCreateDomainRequest request = ChallengeFixture.createChallengeCreateDomainRequest();
 
         Challenge challenge = Challenge.create(request);
 
-        assertThat(challenge.getTitle()).isEqualTo("Test Challenge");
+        assertThat(challenge.getTitle()).isEqualTo(request.title());
         assertThat(challenge.getCategory()).isEqualTo(InterestCategory.DIET);
     }
 
     @DisplayName("챌린지 정보를 수정한다")
     @Test
     void updateChallenge() {
-        ChallengeCreateDomainRequest request = getChallengeCreateDomainRequest();
+        ChallengeCreateDomainRequest request = ChallengeFixture.createChallengeCreateDomainRequest();
 
         Challenge challenge = Challenge.create(request);
 
@@ -33,18 +32,6 @@ class ChallengeTest {
         challenge.updateTitle("Updated Challenge Title");
 
         assertThat(challenge.getIntroduction()).isEqualTo("Updated Introduction");
-    }
-
-    private  ChallengeCreateDomainRequest getChallengeCreateDomainRequest() {
-        return ChallengeCreateDomainRequest.builder()
-                .title("Test Challenge")
-                .introduction("Test Introduction")
-                .category(InterestCategory.valueOf("DIET"))
-                .startDate(stringToDate("2023-01-01"))
-                .endDate(stringToDate("2023-01-31"))
-                .rule("Test Rule")
-                .maxParticipants(4L)
-                .build();
     }
 
 }
