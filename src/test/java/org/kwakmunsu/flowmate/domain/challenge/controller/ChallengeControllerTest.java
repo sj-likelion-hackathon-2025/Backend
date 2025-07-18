@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequest;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
@@ -76,6 +77,38 @@ class ChallengeControllerTest {
                 .andExpect(status().isBadRequest());
 
         verify(challengeCommandService, never()).create(request.toServiceRequest(1L));
+    }
+
+    @TestMember
+    @DisplayName("챌린지 신청을 한다")
+    @Test
+    void apply() throws Exception {
+        ChallengeApplyRequest request = new ChallengeApplyRequest("파이팅 나는 성공할거야 아자아자 파이팅!!!!!");
+        Long challengeId = 1L;
+
+        mockMvc.perform(
+                        post("/challenges/" + "{challengeId}/apply", challengeId )
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @TestMember
+    @DisplayName("메세지가 20글자 이하여서 신청에 실패한다")
+    @Test
+    void failedApply() throws Exception {
+        ChallengeApplyRequest request = new ChallengeApplyRequest("invaild");
+        Long challengeId = 1L;
+
+        mockMvc.perform(
+                        post("/challenges/" + "{challengeId}/apply", challengeId )
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @TestMember

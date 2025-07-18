@@ -80,7 +80,7 @@ public abstract class ChallengeDocsController {
             OVER_CAPACITY_CHALLENGE,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> apply(ChallengeApplyRequest request, Long memberId);
+    public abstract ResponseEntity<Void> apply(ChallengeApplyRequest request, Long challengeId, Long memberId);
 
     @Operation(
             summary = "챌린지 목록 조회",
