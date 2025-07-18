@@ -9,6 +9,7 @@ import org.kwakmunsu.flowmate.domain.challenge.entity.dto.ChallengeCreateDomainR
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeRole;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
+import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
 
 class ChallengeParticipantTest {
@@ -16,8 +17,7 @@ class ChallengeParticipantTest {
     @DisplayName("챌린지 참여자를 생성한다")
     @Test
     void create() {
-        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO,
-                "https://example.com/profile.jpg");
+        Member member = MemberFixture.createMember();
         ChallengeCreateDomainRequest request = getChallengeCreateDomainRequest();
 
         Challenge challenge = Challenge.create(request);

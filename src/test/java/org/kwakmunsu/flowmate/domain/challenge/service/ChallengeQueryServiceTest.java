@@ -15,6 +15,7 @@ import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeLi
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
+import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ class ChallengeQueryServiceTest {
     @DisplayName("챌린지 목록 조회 - 커서 기반 페이징")
     @Test
     void readAll_WithCursorPaging() {
-        Member member = createAndSaveMember("커서유저", "cursor@email.com");
+        Member member = createAndSaveMember();
 
         // 25개 챌린지 생성 (PAGE_SIZE = 20)
         for (int i = 1; i <= 25; i++) {
@@ -69,9 +70,8 @@ class ChallengeQueryServiceTest {
         assertThat(secondPageResponse.nextCursorId()).isNull();
     }
 
-    private Member createAndSaveMember(String name, String email) {
-        Member member = Member.createMember(name, email, "12345678", SocialType.KAKAO,
-                "https://example.com/profile.jpg");
+    private Member createAndSaveMember() {
+        Member member = MemberFixture.createMember();
         return memberRepository.save(member);
     }
 

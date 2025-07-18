@@ -17,6 +17,7 @@ import org.kwakmunsu.flowmate.domain.challenge.repository.challengeParticipant.C
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
+import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ class ChallengeQueryDslRepositoryTest {
     @Test
     void getChallenges() {
         // given
-        Member member1 = createAndSaveMember("kwak", "iii148389@naver.com");
+        Member member1 = createAndSaveMember();
 
         Challenge challenge1 = Challenge.create(getChallengeCreateDomainRequest());
         challengeRepository.save(challenge1);
@@ -80,9 +81,8 @@ class ChallengeQueryDslRepositoryTest {
     }
 
 
-    private Member createAndSaveMember(String name, String email) {
-        Member member = Member.createMember(name, email, "12345678", SocialType.KAKAO,
-                "https://example.com/profile.jpg");
+    private Member createAndSaveMember() {
+        Member member = MemberFixture.createMember();
         return memberRepository.save(member);
     }
 
