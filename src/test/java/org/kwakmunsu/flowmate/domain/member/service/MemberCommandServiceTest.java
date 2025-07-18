@@ -25,7 +25,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class MemberCommandServiceTest {
@@ -85,7 +84,7 @@ class MemberCommandServiceTest {
         assertThat(member.getName()).isEqualTo(request.name());
         assertThat(member.getProfileImgUrl()).isNull();
 
-        verify(s3Provider).deleteImage("https://example.com/profile.jpg");
+        verify(s3Provider).deleteImage("testProfileUrl");
         verify(s3Provider, never()).uploadImage(any());
     }
 
@@ -96,7 +95,7 @@ class MemberCommandServiceTest {
                 "file", "test.jpg", "image/jpeg", "test content".getBytes()
         );
         MemberProfileServiceRequest request = new MemberProfileServiceRequest(file, "update", 1L);
-        Member member = MemberFixture.createMember();
+        Member member = Member.createMember("kwak", "iii148389@gmail.com", "123445677", SocialType.KAKAO, null);
 
         assertThat(member.getProfileImgUrl()).isNull();
 

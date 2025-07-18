@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
 import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
-import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.kwakmunsu.flowmate.domain.member.service.dto.ReissueTokenServiceRequest;
 import org.kwakmunsu.flowmate.global.exception.NotFoundException;
@@ -20,7 +19,6 @@ import org.kwakmunsu.flowmate.global.jwt.provider.JwtProvider;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
