@@ -25,6 +25,7 @@ public enum ErrorStatus {
     BAD_REQUEST_APPLY      (400, "ERROR - 잘못된 신청입니다."),
     INVALID_DATE_FORMAT    (400,"yyyy-MM-dd 형식으로 입력해주세요."),
     NOT_FOUND_CHALLENGE    (404, "ERROR - 해당 챌린지를 찾을 수 없습니다."),
+    DUPLICATE_APPLY (409, "ERROR - 이미 신청하신 챌린지입니다."),
     OVER_CAPACITY_CHALLENGE(422, "ERROR - 챌린지 신청 인원이 초과되었습니다."),
 
     // <=============== JWT ===============>

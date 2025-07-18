@@ -42,9 +42,15 @@ public class ChallengeController extends ChallengeDocsController {
     }
 
     @Override
-    @PostMapping("/apply")
-    public ResponseEntity<Void> apply(@RequestBody ChallengeApplyRequest request, @AuthMember Long memberId) {
-        return null;
+    @PostMapping("{challengeId}/apply")
+    public ResponseEntity<Void> apply(
+            @Valid @RequestBody ChallengeApplyRequest request,
+            @PathVariable Long challengeId,
+            @AuthMember Long memberId
+    ) {
+        challengeCommandService.apply(request.toServiceRequest(challengeId,memberId));
+
+        return ResponseEntity.ok().build();
     }
 
     @Override

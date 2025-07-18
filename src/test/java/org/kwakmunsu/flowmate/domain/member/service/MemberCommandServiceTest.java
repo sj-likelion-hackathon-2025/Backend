@@ -15,6 +15,7 @@ import org.kwakmunsu.flowmate.domain.member.controller.dto.MemberProfileServiceR
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
 import org.kwakmunsu.flowmate.domain.member.entity.MemberCategory;
+import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.kwakmunsu.flowmate.domain.member.repository.membercategory.MemberCategoryRepository;
@@ -24,7 +25,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class MemberCommandServiceTest {
@@ -44,9 +44,7 @@ class MemberCommandServiceTest {
     @DisplayName("리프레쉬 토큰 업데이트")
     @Test
     void updateRefreshToken() {
-        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO,
-                "https://example.com/profile.jpg");
-        ReflectionTestUtils.setField(member, "id", 1L);
+        Member member = MemberFixture.createMember(1L);
 
         given(memberRepository.findById(1L)).willReturn(member);
 
@@ -62,8 +60,7 @@ class MemberCommandServiceTest {
                 "file", "test.jpg", "image/jpeg", "test content".getBytes()
         );
         MemberProfileServiceRequest request1 = new MemberProfileServiceRequest(file, "update", 1L);
-        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO,
-                "https://example.com/profile.jpg");
+        Member member = MemberFixture.createMember();
 
         given(memberRepository.findById(request1.memberId())).willReturn(member);
         given(s3Provider.uploadImage(file)).willReturn("https://new-upload-url.com/image.jpg");
@@ -78,8 +75,7 @@ class MemberCommandServiceTest {
     @Test
     void updateBasicProfile() {
         MemberProfileServiceRequest request = new MemberProfileServiceRequest(null, "update", 1L);
-        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO,
-                "https://example.com/profile.jpg");
+        Member member = MemberFixture.createMember();
 
         given(memberRepository.findById(request.memberId())).willReturn(member);
 
@@ -88,7 +84,7 @@ class MemberCommandServiceTest {
         assertThat(member.getName()).isEqualTo(request.name());
         assertThat(member.getProfileImgUrl()).isNull();
 
-        verify(s3Provider).deleteImage("https://example.com/profile.jpg");
+        verify(s3Provider).deleteImage("testProfileUrl");
         verify(s3Provider, never()).uploadImage(any());
     }
 
@@ -99,7 +95,7 @@ class MemberCommandServiceTest {
                 "file", "test.jpg", "image/jpeg", "test content".getBytes()
         );
         MemberProfileServiceRequest request = new MemberProfileServiceRequest(file, "update", 1L);
-        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO, null);
+        Member member = Member.createMember("kwak", "iii148389@gmail.com", "123445677", SocialType.KAKAO, null);
 
         assertThat(member.getProfileImgUrl()).isNull();
 

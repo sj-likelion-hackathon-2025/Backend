@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
-import org.kwakmunsu.flowmate.domain.member.entity.SocialType;
+import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
 import org.kwakmunsu.flowmate.domain.member.service.dto.MemberInfoResponse;
 import org.kwakmunsu.flowmate.global.exception.DuplicationException;
@@ -30,13 +30,13 @@ class MemberQueryServiceTest {
     @DisplayName("회원 기본 정보를 조회한다")
     @Test
     void getProfile() {
-        Member member = Member.createMember("kwak", "iii148389@naver.com", "12345678", SocialType.KAKAO, "profileImageUrl");
+        Member member = MemberFixture.createMember();
         given(memberRepository.findById(1L)).willReturn(member);
 
         MemberInfoResponse profile = memberQueryService.getProfile(1L);
 
         assertThat(profile).isNotNull();
-        assertThat(profile.profileImageUrl()).isEqualTo("profileImageUrl");
+        assertThat(profile.profileImageUrl()).isEqualTo(member.getProfileImgUrl());
     }
 
     @DisplayName("존재하지 않는 회원 조회 시 예외를 던진다.")
