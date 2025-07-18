@@ -26,6 +26,7 @@ public class ChallengeFixture {
                 .endDate(stringToDate("2023-01-31"))
                 .rule("Test Rule")
                 .maxParticipants(4L)
+                .leaderId(1L)
                 .build();
     }
 

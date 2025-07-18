@@ -18,6 +18,7 @@ class ChallengeTest {
 
         assertThat(challenge.getTitle()).isEqualTo(request.title());
         assertThat(challenge.getCategory()).isEqualTo(InterestCategory.DIET);
+        assertThat(challenge.getLeaderId()).isEqualTo(1L);
     }
 
     @DisplayName("챌린지 정보를 수정한다")

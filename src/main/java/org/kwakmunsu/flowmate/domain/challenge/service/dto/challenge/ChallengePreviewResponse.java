@@ -6,6 +6,9 @@ public record ChallengePreviewResponse(
         @Schema(description = "챌린지 ID", example = "1")
         Long challengeId,
 
+        @Schema(description = "챌린지 리더 ID", example = "1")
+        Long leaderId,
+
         @Schema(description = "챌린지 제목", example = "아침 6시 기상 챌린지")
         String title,
 

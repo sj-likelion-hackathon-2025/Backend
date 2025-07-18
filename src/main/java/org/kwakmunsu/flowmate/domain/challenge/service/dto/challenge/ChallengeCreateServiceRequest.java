@@ -27,6 +27,7 @@ public record ChallengeCreateServiceRequest(
                 .endDate(stringToDate(endDate))
                 .rule(rule)
                 .maxParticipants(maxParticipants)
+                .leaderId(memberId)
                 .build();
     }
 

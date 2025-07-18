@@ -31,14 +31,14 @@ public class ChallengeQueryDslRepository {
                 .select(constructor(
                         ChallengePreviewResponse.class,
                         challenge.id.as("challengeId"),
+                        challenge.leaderId,
                         challenge.title,
                         challenge.introduction,
                         challenge.maxParticipants.as("maxParticipantCount"),
-                        select(challengeParticipant.count())
-                                .from(challengeParticipant)
-                                .where(challengeParticipant.challenge.id.eq(challenge.id)),
+                        challengeParticipant.count().as("currentParticipantCount"), // 조인으로 처리
                         formattedChallengePeriod(challenge.startDate),
                         formattedChallengePeriod(challenge.endDate),
+
                         select(challengeParticipant.count().gt(0L))
                                 .from(challengeParticipant)
                                 .where(
@@ -47,7 +47,10 @@ public class ChallengeQueryDslRepository {
                                 )
                 ))
                 .from(challenge)
+                .leftJoin(challengeParticipant).on(challengeParticipant.challenge.id.eq(challenge.id))
                 .where(cursorIdCondition(request))
+                .groupBy(challenge.id, challenge.title, challenge.introduction,
+                        challenge.maxParticipants, challenge.startDate, challenge.endDate)
                 .orderBy(challenge.id.desc())
                 .limit(PAGE_SIZE + 1)
                 .fetch();

@@ -132,6 +132,7 @@ class ChallengeControllerTest {
         List<ChallengePreviewResponse> challenges = List.of(
                 new ChallengePreviewResponse(
                         1L,
+                        1L,
                         "아침 6시 기상 챌린지",
                         "매일 아침 6시에 일어나 인증하는 챌린지입니다.",
                         10L,
@@ -141,36 +142,7 @@ class ChallengeControllerTest {
                         true
                 ),
                 new ChallengePreviewResponse(
-                        2L,
-                        "매일 독서 30분 챌린지",
-                        "하루 30분씩 독서하고 인증하는 챌린지입니다.",
-                        20L,
-                        12L,
-                        "2024-07-15",
-                        "2024-08-14",
-                        false
-                ),
-                new ChallengePreviewResponse(
-                        3L,
-                        "1만보 걷기 챌린지",
-                        "매일 1만보 걷기를 목표로 하는 건강 챌린지입니다.",
-                        15L,
-                        8L,
-                        "2024-06-01",
-                        "2024-06-30",
-                        true
-                ),
-                new ChallengePreviewResponse(
-                        4L,
-                        "금연 30일 챌린지",
-                        "30일 동안 금연을 실천하는 챌린지입니다.",
-                        50L,
-                        23L,
-                        "2024-08-01",
-                        "2024-08-31",
-                        false
-                ),
-                new ChallengePreviewResponse(
+                        5L,
                         5L,
                         "매일 물 2L 마시기",
                         "하루 2L 이상 물을 마시고 인증하는 건강 챌린지입니다.",
