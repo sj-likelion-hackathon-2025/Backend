@@ -49,6 +49,10 @@ public class Challenge extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String rules;
 
+    // 반정규화: 리더 ID 중복 저장
+    @Column(name = "leader_id", nullable = false)
+    private Long leaderId;  // ChallengeParticipant에도 존재
+
     @Builder(access = AccessLevel.PRIVATE)
     private Challenge(
             String title,
@@ -57,7 +61,8 @@ public class Challenge extends BaseTimeEntity {
             LocalDate startDate,
             LocalDate endDate,
             Long maxParticipants,
-            String rules
+            String rules,
+            Long leaderId
     ) {
         this.title = title;
         this.introduction = introduction;
@@ -66,6 +71,7 @@ public class Challenge extends BaseTimeEntity {
         this.endDate = endDate;
         this.maxParticipants = maxParticipants;
         this.rules = rules;
+        this.leaderId = leaderId;
     }
 
     public static Challenge create(ChallengeCreateDomainRequest request) {
@@ -77,6 +83,7 @@ public class Challenge extends BaseTimeEntity {
                 .endDate(request.endDate())
                 .maxParticipants(request.maxParticipants())
                 .rules(request.rule())
+                .leaderId(request.leaderId())
                 .build();
     }
 
@@ -90,6 +97,10 @@ public class Challenge extends BaseTimeEntity {
 
     public void updateRules(String rules) {
         this.rules = rules;
+    }
+
+    public void updateLeader(Long leaderId) {
+        this.leaderId = leaderId;
     }
 
 }

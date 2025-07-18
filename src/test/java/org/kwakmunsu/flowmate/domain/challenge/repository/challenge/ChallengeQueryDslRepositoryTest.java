@@ -57,13 +57,12 @@ class ChallengeQueryDslRepositoryTest {
 
         ChallengeListResponse response = challengeQueryDslRepository.findAll(request);
 
-        assertThat(response.challengePreviewResponses()).hasSize(3)
-                .extracting("title", "introduction", "maxParticipantCount", "currentParticipantCount", "startDate"
+        assertThat(response.challengePreviewResponses()).hasSize(2)
+                .extracting("title", "leaderId", "introduction", "maxParticipantCount", "currentParticipantCount", "startDate"
                         , "endDate", "isParticipated")
                 .containsExactlyInAnyOrder(
-                        tuple("Test Title", "Test Introduction", 4L, 1L, "2023-01-01", "2023-01-31", false),
-                        tuple("Test Title", "Test Introduction", 4L, 1L, "2023-01-01", "2023-01-31", false),
-                        tuple("일주일 동안 매일 3km 런닝 챌린지", "매일 운동하고 건강해지는 30일 챌린지", 5L, 1L, "2024-07-01", "2024-07-30", true)
+                        tuple("Test Title",1L, "Test Introduction", 4L, 1L, "2023-01-01", "2023-01-31", false),
+                        tuple("Test Title",1L, "Test Introduction", 4L, 1L, "2023-01-01", "2023-01-31", false)
                 );
 
         assertThat(response.hasNext()).isFalse();
