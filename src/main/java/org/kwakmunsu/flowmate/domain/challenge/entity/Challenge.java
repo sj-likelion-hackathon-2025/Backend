@@ -44,7 +44,7 @@ public class Challenge extends BaseTimeEntity {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private Integer maxParticipants;
+    private Long maxParticipants;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String rules;
@@ -56,7 +56,7 @@ public class Challenge extends BaseTimeEntity {
             InterestCategory category,
             LocalDate startDate,
             LocalDate endDate,
-            Integer maxParticipants,
+            Long maxParticipants,
             String rules
     ) {
         this.title = title;

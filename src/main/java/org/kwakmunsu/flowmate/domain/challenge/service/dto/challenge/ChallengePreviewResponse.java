@@ -13,10 +13,10 @@ public record ChallengePreviewResponse(
         String introduction,
 
         @Schema(description = "최대 참가자 수", example = "10")
-        Integer maxParticipantCount,
+        Long maxParticipantCount,
 
         @Schema(description = "현재 참가자 수", example = "5")
-        Integer currentParticipantCount,
+        Long currentParticipantCount,
 
         @Schema(description = "챌린지 시작일", example = "2024-07-01")
         String startDate,

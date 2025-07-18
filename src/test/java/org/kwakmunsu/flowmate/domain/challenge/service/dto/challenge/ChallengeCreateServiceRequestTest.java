@@ -30,7 +30,7 @@ class ChallengeCreateServiceRequestTest {
                 .startDate(startDate)
                 .endDate(endDate)
                 .rule("Test Rule")
-                .maxParticipants(4)
+                .maxParticipants(4L)
                 .memberId(1L)
                 .build();
     }

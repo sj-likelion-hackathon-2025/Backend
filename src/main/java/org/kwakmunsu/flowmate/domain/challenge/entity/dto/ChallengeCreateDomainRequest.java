@@ -12,7 +12,7 @@ public record ChallengeCreateDomainRequest(
         LocalDate startDate,
         LocalDate endDate,
         String rule,
-        Integer maxParticipants
+        Long maxParticipants
 ) {
 
 }
