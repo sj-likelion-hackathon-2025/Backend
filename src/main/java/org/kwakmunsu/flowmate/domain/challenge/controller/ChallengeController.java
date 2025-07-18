@@ -7,6 +7,7 @@ import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequ
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
@@ -42,15 +43,22 @@ public class ChallengeController extends ChallengeDocsController {
     }
 
     @Override
-    @PostMapping("{challengeId}/apply")
+    @PostMapping("/{challengeId}/applications")
     public ResponseEntity<Void> apply(
             @Valid @RequestBody ChallengeApplyRequest request,
             @PathVariable Long challengeId,
             @AuthMember Long memberId
     ) {
-        challengeCommandService.apply(request.toServiceRequest(challengeId,memberId));
+        challengeCommandService.apply(request.toServiceRequest(challengeId, memberId));
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{challengeId}/applications")
+    public ResponseEntity<ChallengeApplyListResponse> getApplyList(@PathVariable Long challengeId, @AuthMember Long memberId) {
+        ChallengeApplyListResponse response = challengeQueryService.readApplyList(challengeId, memberId);
+
+        return ResponseEntity.ok(response);
     }
 
     @Override
@@ -63,7 +71,8 @@ public class ChallengeController extends ChallengeDocsController {
             @RequestParam(required = false, defaultValue = "RECRUITING") ChallengeListType challengeListType,
             @RequestParam(required = false) Long lastChallengeId
     ) {
-        ChallengeReadServiceRequest request = new ChallengeReadServiceRequest(memberId, q, sortBy, interestCategory, challengeListType, lastChallengeId);
+        ChallengeReadServiceRequest request = new ChallengeReadServiceRequest(memberId, q, sortBy, interestCategory,
+                challengeListType, lastChallengeId);
         ChallengeListResponse response = challengeQueryService.readAll(request);
 
         return ResponseEntity.ok(response);
