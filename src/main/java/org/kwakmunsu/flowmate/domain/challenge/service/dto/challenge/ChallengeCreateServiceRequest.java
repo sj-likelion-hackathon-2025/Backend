@@ -14,7 +14,7 @@ public record ChallengeCreateServiceRequest(
         String startDate,
         String endDate,
         String rule,
-        Integer maxParticipants,
+        Long maxParticipants,
         Long memberId
 ) {
 

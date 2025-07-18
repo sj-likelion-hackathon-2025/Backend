@@ -51,7 +51,7 @@ class ChallengeCommandServiceTest {
                 .startDate("2023-01-01")
                 .endDate("2023-01-31")
                 .rule("Test Rule")
-                .maxParticipants(4)
+                .maxParticipants(4L)
                 .memberId(1L)
                 .build();
     }

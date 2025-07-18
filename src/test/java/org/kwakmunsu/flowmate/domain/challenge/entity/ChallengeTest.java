@@ -43,7 +43,7 @@ class ChallengeTest {
                 .startDate(stringToDate("2023-01-01"))
                 .endDate(stringToDate("2023-01-31"))
                 .rule("Test Rule")
-                .maxParticipants(4)
+                .maxParticipants(4L)
                 .build();
     }
 

@@ -41,7 +41,7 @@ public record ChallengeCreateRequest(
         @Schema(description = "최대 참가자 수 - 5명까지 가능합니다.", example = "5")
         @Min(value = 2, message = "최소 참여자 수는 2명 이상이어야 합니다")
         @Max(value = 5, message = "최대 참여자 수는 5명 이하여야 합니다")
-        Integer maxParticipants
+        Long maxParticipants
 ) {
 
     public ChallengeCreateServiceRequest toServiceRequest(Long memberId) {
