@@ -8,8 +8,10 @@ import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateReq
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
+import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.global.annotation.AuthMember;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChallengeController extends ChallengeDocsController {
 
     private final ChallengeCommandService challengeCommandService;
+    private final ChallengeQueryService challengeQueryService;
 
     @Override
     @PostMapping
@@ -54,7 +57,10 @@ public class ChallengeController extends ChallengeDocsController {
             @RequestParam(required = false, defaultValue = "RECRUITING") ChallengeListType challengeListType,
             @RequestParam(required = false) Long lastChallengeId
     ) {
-        return null;
+        ChallengeReadServiceRequest request = new ChallengeReadServiceRequest(memberId, q, sortBy, interestCategory, challengeListType, lastChallengeId);
+        ChallengeListResponse response = challengeQueryService.readAll(request);
+
+        return ResponseEntity.ok(response);
     }
 
     @Override
