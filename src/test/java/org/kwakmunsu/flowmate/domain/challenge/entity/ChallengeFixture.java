@@ -34,6 +34,19 @@ public class ChallengeFixture {
         return createChallengeCreateServiceRequest("Test Title");
     }
 
+    public static ChallengeCreateServiceRequest createChallengeCreateServiceRequest(Long leaderId) {
+        return ChallengeCreateServiceRequest.builder()
+                .title("title")
+                .introduction("Test Introduction")
+                .category("DIET")
+                .startDate("2023-01-01")
+                .endDate("2023-01-31")
+                .rule("Test Rule")
+                .maxParticipants(4L)
+                .memberId(leaderId)
+                .build();
+    }
+
     public static ChallengeCreateServiceRequest createChallengeCreateServiceRequest(String title) {
         return ChallengeCreateServiceRequest.builder()
                 .title(title)
@@ -74,6 +87,11 @@ public class ChallengeFixture {
 
     public static ChallengeApplyServiceRequest createChallengeApplyServiceRequest(String message) {
         return new ChallengeApplyServiceRequest(message, 1L, 1L);
+    }
+
+    public static ChallengeApplyServiceRequest createChallengeApplyServiceRequest(Long challengeId, Long memberId,
+            String message) {
+        return new ChallengeApplyServiceRequest(message, challengeId, memberId);
     }
 
 }

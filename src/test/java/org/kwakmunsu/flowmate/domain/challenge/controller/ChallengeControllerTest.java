@@ -16,11 +16,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequest;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengePreviewResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
+import org.kwakmunsu.flowmate.domain.member.entity.Grade;
 import org.kwakmunsu.flowmate.security.TestMember;
 import org.kwakmunsu.flowmate.security.TestSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +90,7 @@ class ChallengeControllerTest {
         Long challengeId = 1L;
 
         mockMvc.perform(
-                        post("/challenges/" + "{challengeId}/apply", challengeId )
+                        post("/challenges/" + "{challengeId}/applications", challengeId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request))
                 )
@@ -103,12 +106,37 @@ class ChallengeControllerTest {
         Long challengeId = 1L;
 
         mockMvc.perform(
-                        post("/challenges/" + "{challengeId}/apply", challengeId )
+                        post("/challenges/" + "{challengeId}/applications", challengeId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request))
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+
+    @TestMember
+    @DisplayName("챌린지 신청 목록을 조회한다")
+    @Test
+    void getChallengeApplies() throws Exception {
+        ChallengeApplyListResponse response = new ChallengeApplyListResponse(List.of(ChallengeApplyResponse.builder()
+                .memberId(1L)
+                .name("곽태풍")
+                .grade(Grade.ROOKIE)
+                .message("전여친한테 복수하겠습니다. 이 챌린지가 저에게 큰 동기부여가 됩니다.")
+                .build())
+        );
+        Long challengeId = 1L;
+
+        given(challengeQueryService.readApplyList(any(), any())).willReturn(response);
+
+        mockMvc.perform(
+                        get("/challenges/" + "{challengeId}/applications", challengeId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.responses").isArray())
+                .andExpect(jsonPath("$.responses.length()").value(1));
     }
 
     @TestMember

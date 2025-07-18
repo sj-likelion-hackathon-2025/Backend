@@ -23,8 +23,8 @@ public class ChallengeRepository {
         return challengeQueryDslRepository.findAll(request);
     }
 
-    public boolean existsById(Long challengeId) {
-        return challengeJpaRepository.existsById(challengeId);
+    public boolean existsByIdAndLeaderId(Long challengeId, Long leaderId) {
+        return challengeJpaRepository.existsByIdAndLeaderId(challengeId, leaderId);
     }
 
     public Challenge findById(Long challengeId) {

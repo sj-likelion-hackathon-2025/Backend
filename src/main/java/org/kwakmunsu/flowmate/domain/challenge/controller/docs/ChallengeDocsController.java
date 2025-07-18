@@ -20,6 +20,7 @@ import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequ
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
@@ -81,6 +82,34 @@ public abstract class ChallengeDocsController {
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Void> apply(ChallengeApplyRequest request, Long challengeId, Long memberId);
+
+    @Operation(
+            summary = "챌린지 신청 목록 조회 - JWT O ",
+            description = "챌린지 신청자 목록을 조회 합니다."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "챌린지 신청 목록 조회 성공",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ChallengeApplyListResponse.class)
+            )
+    )
+    @ApiExceptions(values = {
+            BAD_REQUEST,
+            UNAUTHORIZED_ERROR,
+            INTERNAL_SERVER_ERROR
+    })
+    public abstract ResponseEntity<ChallengeApplyListResponse> getApplyList(
+            @Parameter(
+                    name = "challengeId",
+                    description = "신청자 목록을 조회할 챌린지 ID",
+                    required = true,
+                    in = ParameterIn.PATH,
+                    example = "42")
+            Long challengeId,
+            Long memberId
+    );
 
     @Operation(
             summary = "챌린지 목록 조회",

@@ -27,7 +27,7 @@ public class ChallengeCommandService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void create(ChallengeCreateServiceRequest request) {
+    public Long create(ChallengeCreateServiceRequest request) {
         Challenge challenge = Challenge.create(request.toDomainRequest());
         challengeRepository.save(challenge);
 
@@ -36,6 +36,8 @@ public class ChallengeCommandService {
         // 생성한 멤버는 해당 챌린지의 초대 리더로 부임한다.
         ChallengeParticipant participant = ChallengeParticipant.create(member, challenge, ChallengeRole.LEADER);
         challengeParticipantRepository.save(participant);
+
+        return challenge.getId();
     }
 
     public void apply(ChallengeApplyServiceRequest request) {

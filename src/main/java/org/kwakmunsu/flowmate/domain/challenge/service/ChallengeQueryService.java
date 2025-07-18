@@ -2,8 +2,13 @@ package org.kwakmunsu.flowmate.domain.challenge.service;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.ChallengeRepository;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.ChallengeApplyRepository;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
+import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
+import org.kwakmunsu.flowmate.global.exception.UnAuthenticationException;
+import org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -11,9 +16,23 @@ import org.springframework.stereotype.Service;
 public class ChallengeQueryService {
 
     private final ChallengeRepository challengeRepository;
+    private final ChallengeApplyRepository challengeApplyRepository;
 
     public ChallengeListResponse readAll(ChallengeReadServiceRequest request) {
         return challengeRepository.findAll(request.toDomainRequest());
+    }
+
+    public ChallengeApplyListResponse readApplyList(Long challengeId, Long memberId) {
+        validateLeader(challengeId, memberId);
+
+        return challengeApplyRepository.findByChallengeIdAndStatus(challengeId, ApprovalStatus.PENDING);
+    }
+
+    private void validateLeader(Long challengeId, Long memberId) {
+        if(challengeRepository.existsByIdAndLeaderId(challengeId, memberId)) {
+            return;
+        }
+        throw new UnAuthenticationException(ErrorStatus.UNAUTHORIZED_ERROR);
     }
 
 }
