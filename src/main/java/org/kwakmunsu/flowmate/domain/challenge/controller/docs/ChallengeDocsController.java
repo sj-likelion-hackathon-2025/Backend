@@ -4,7 +4,7 @@ import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.BAD_REQUES
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.DELETE_UNAUTHORIZED;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.INTERNAL_SERVER_ERROR;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.MODIFY_UNAUTHORIZED;
-import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.OVER_CAPACITY_CHALLENGE;
+import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.OVER_CAPACITY_APPLICATION;
 import static org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus.UNAUTHORIZED_ERROR;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,9 +20,9 @@ import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplicati
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
 import org.springframework.http.MediaType;
@@ -78,7 +78,7 @@ public abstract class ChallengeDocsController {
     @ApiExceptions(values = {
             BAD_REQUEST,
             UNAUTHORIZED_ERROR,
-            OVER_CAPACITY_CHALLENGE,
+            OVER_CAPACITY_APPLICATION,
             INTERNAL_SERVER_ERROR
     })
     public abstract ResponseEntity<Void> apply(ChallengeApplicationRequest request, Long challengeId, Long memberId);

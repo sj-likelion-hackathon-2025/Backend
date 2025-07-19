@@ -3,15 +3,16 @@ package org.kwakmunsu.flowmate.domain.challenge.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.flowmate.domain.challenge.controller.docs.ChallengeDocsController;
-import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequest;
+import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplicationApprovalRequest;
+import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplicationRequest;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.global.annotation.AuthMember;
@@ -45,7 +46,7 @@ public class ChallengeController extends ChallengeDocsController {
     @Override
     @PostMapping("/{challengeId}/applications")
     public ResponseEntity<Void> apply(
-            @Valid @RequestBody ChallengeApplyRequest request,
+            @Valid @RequestBody ChallengeApplicationRequest request,
             @PathVariable Long challengeId,
             @AuthMember Long memberId
     ) {
@@ -55,10 +56,22 @@ public class ChallengeController extends ChallengeDocsController {
     }
 
     @GetMapping("/{challengeId}/applications")
-    public ResponseEntity<ChallengeApplyListResponse> getApplyList(@PathVariable Long challengeId, @AuthMember Long memberId) {
-        ChallengeApplyListResponse response = challengeQueryService.readApplyList(challengeId, memberId);
+    public ResponseEntity<ChallengeApplicationListResponse> getApplyList(@PathVariable Long challengeId, @AuthMember Long memberId) {
+        ChallengeApplicationListResponse response = challengeQueryService.readApplyList(challengeId, memberId);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{challengeId}/applications/{applicationId}")
+    public ResponseEntity<Void> approve(
+            @PathVariable Long challengeId,
+            @PathVariable Long applicationId,
+            @RequestBody ChallengeApplicationApprovalRequest request,
+            @AuthMember Long memberId
+    ) {
+        challengeCommandService.approval(request.toServiceRequest(challengeId, applicationId, memberId));
+
+        return ResponseEntity.ok().build();
     }
 
     @Override

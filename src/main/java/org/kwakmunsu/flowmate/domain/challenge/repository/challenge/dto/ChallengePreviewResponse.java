@@ -1,7 +1,9 @@
 package org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+@Builder
 public record ChallengePreviewResponse(
         @Schema(description = "챌린지 ID", example = "1")
         Long challengeId,
