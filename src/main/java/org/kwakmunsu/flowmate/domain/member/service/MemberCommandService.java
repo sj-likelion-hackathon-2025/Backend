@@ -30,6 +30,7 @@ public class MemberCommandService {
     @Transactional
     public void updateProfile(MemberProfileServiceRequest request) {
         Member member = memberRepository.findById(request.memberId());
+        member.upgradeRoleToMember();
 
         if (!isNullProfileImage(member)) {
             s3Provider.deleteImage(member.getProfileImgUrl());

@@ -46,7 +46,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
 
     private String createRedirectUrl(TokenResponse tokenResponse, Role role) {
-        String path = role.equals(Role.GUEST) ? "/info" : "/";
+        String path = role.equals(Role.GUEST) ? "/members/profile" : "/";
 
         // TODO: 배포 시 url 수정 예정
         return UriComponentsBuilder.fromUriString("http://localhost:5173" + path)
