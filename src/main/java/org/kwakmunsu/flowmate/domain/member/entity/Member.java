@@ -80,7 +80,7 @@ public class Member extends BaseTimeEntity {
         requireNonNull(socialId);
         requireNonNull(socialType);
 
-        return new Member(name, email, socialId, profileImgUrl, Role.MEMBER, Grade.ROOKIE, socialType, 0L, null);
+        return new Member(name, email, socialId, profileImgUrl, Role.GUEST, Grade.ROOKIE, socialType, 0L, null);
     }
 
     public static Member createAdmin(String name, String email, String socialId) {
@@ -125,6 +125,12 @@ public class Member extends BaseTimeEntity {
 
     public void updateName(String name) {
         this.name = name;
+    }
+
+    public void upgradeRoleToMember() {
+        if (this.role == Role.GUEST) {
+            this.role = Role.MEMBER;
+        }
     }
 
     private void updateProfileImgUrl(String profileImgUrl) {

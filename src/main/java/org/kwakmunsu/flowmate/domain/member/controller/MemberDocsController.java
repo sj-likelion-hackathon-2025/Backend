@@ -53,27 +53,17 @@ public abstract class MemberDocsController {
                     마이페이지에서 프로필 변경 시 해당 API를 사용합니다.
                     """
     )
-    @RequestBody(
-            description = "프로필 정보 등록 요청",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = MemberProfileRequest.class)
-            )
-    )
     @ApiExceptions(values = {
             BAD_REQUEST,
             UNAUTHORIZED_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> register(MemberProfileRequest request,
-            @RequestBody(
-                    description = "사용자 프로필 사진  (이미지)",
-                    required = true,
-                    content = @Content(
-                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(type = "string", format = "binary")
-                    )
-            ) MultipartFile image, Long memberId);
+    public abstract ResponseEntity<Void> register(
+            @Parameter(description = "프로필 정보", required = true)
+            MemberProfileRequest request,
+            @Parameter(description = "프로필 이미지 파일", required = true)
+            MultipartFile image,
+            Long memberId);
 
     @Operation(
             summary = "닉네임 중복 확인 - JWT O"
