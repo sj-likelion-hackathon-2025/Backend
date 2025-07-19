@@ -1,5 +1,6 @@
 package org.kwakmunsu.flowmate.domain.challenge.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -9,14 +10,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kwakmunsu.flowmate.domain.challenge.entity.Challenge;
-import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeApply;
+import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeApplication;
 import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeFixture;
 import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeParticipant;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.ChallengeRepository;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challengeParticipant.ChallengeParticipantRepository;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.ChallengeApplyRepository;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.ChallengeApplyServiceRequest;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.ChallengeApplicationRepository;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeCreateServiceRequest;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challengeApplication.ChallengeApplicationApprovalServiceRequest;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challengeApplication.ChallengeApplicationServiceRequest;
+import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
 import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;
@@ -35,7 +38,7 @@ class ChallengeCommandServiceTest {
     ChallengeParticipantRepository challengeParticipantRepository;
 
     @Mock
-    ChallengeApplyRepository challengeApplyRepository;
+    ChallengeApplicationRepository challengeApplicationRepository;
 
     @Mock
     MemberRepository memberRepository;
@@ -61,16 +64,16 @@ class ChallengeCommandServiceTest {
     void apply() {
         Member member = MemberFixture.createMember();
         Challenge challenge = ChallengeFixture.createChallenge(1L);
-        ChallengeApplyServiceRequest request = ChallengeFixture.createChallengeApplyServiceRequest(
+        ChallengeApplicationServiceRequest request = ChallengeFixture.createChallengeApplyServiceRequest(
                 "이번엔 꼭 성공하겠습니다. 파이팅 파이팅 파이팅");
 
         given(memberRepository.findById(any())).willReturn(member);
         given(challengeRepository.findById(any())).willReturn(challenge);
 
-        ChallengeApply.create(member, challenge.getId(), request.message());
+        ChallengeApplication.create(member, challenge.getId(), request.message());
         challengeCommandService.apply(request);
 
-        verify(challengeApplyRepository).save(any(ChallengeApply.class));
+        verify(challengeApplicationRepository).save(any(ChallengeApplication.class));
     }
 
     @DisplayName("이미 신청한 챌린지 신청을 할 경우 예외를 던진다.")
@@ -78,12 +81,12 @@ class ChallengeCommandServiceTest {
     void failedApplyWhenAlreadyApply() {
         Member member = MemberFixture.createMember();
         Challenge challenge = ChallengeFixture.createChallenge(1L);
-        ChallengeApplyServiceRequest request = ChallengeFixture.createChallengeApplyServiceRequest(
+        ChallengeApplicationServiceRequest request = ChallengeFixture.createChallengeApplyServiceRequest(
                 "이번엔 꼭 성공하겠습니다. 파이팅 파이팅 파이팅");
 
         given(memberRepository.findById(any())).willReturn(member);
         given(challengeRepository.findById(any())).willReturn(challenge);
-        given(challengeApplyRepository.existsMemberIdAndChallengeId(any(), any())).willReturn(true);
+        given(challengeApplicationRepository.existsMemberIdAndChallengeId(any(), any())).willReturn(true);
 
         assertThatThrownBy(() -> challengeCommandService.apply(request))
                 .isInstanceOf(DuplicationException.class);
@@ -94,16 +97,41 @@ class ChallengeCommandServiceTest {
     void failedApplyWhenOverCapacity() {
         Member member = MemberFixture.createMember();
         Challenge challenge = ChallengeFixture.createChallenge(1L); // 4명
-        ChallengeApplyServiceRequest request = ChallengeFixture.createChallengeApplyServiceRequest(
+        ChallengeApplicationServiceRequest request = ChallengeFixture.createChallengeApplyServiceRequest(
                 "이번엔 꼭 성공하겠습니다. 파이팅 파이팅 파이팅");
 
         given(memberRepository.findById(any())).willReturn(member);
         given(challengeRepository.findById(any())).willReturn(challenge);
         int maxCount = (int) (challenge.getMaxParticipants() * 2);
-        given(challengeApplyRepository.countApplicantsWithLimit(any(Long.class), any(Integer.class))).willReturn(maxCount);
+        given(challengeApplicationRepository.countApplicantsWithLimit(any(Long.class), any(Integer.class))).willReturn(maxCount);
 
         assertThatThrownBy(() -> challengeCommandService.apply(request))
                 .isInstanceOf(DuplicationException.class);
+    }
+
+    @DisplayName("챌린지 승인 여부를 결정한다")
+    @Test
+    void approve() {
+        ChallengeApplicationApprovalServiceRequest request = ChallengeApplicationApprovalServiceRequest.builder()
+                .status(ApprovalStatus.APPROVED)
+                .challengeId(1L)
+                .applicationId(1L)
+                .leaderId(1L)
+                .build();
+        Member member = MemberFixture.createMember(1L);
+        Challenge challenge = ChallengeFixture.createChallenge(1L);
+        ChallengeApplication application = ChallengeApplication.create(member, 1L,
+                "messageasdasdasdadsasdas");
+        given(challengeRepository.existsByIdAndLeaderId(any(),any())).willReturn(true);
+        given(challengeApplicationRepository.findById(any())).willReturn(application);
+        given(memberRepository.findById(any())).willReturn(member);
+        given(challengeRepository.findById(any())).willReturn(challenge);
+
+        challengeCommandService.approval(request);
+
+        assertThat(application.getStatus()).isEqualTo(ApprovalStatus.APPROVED);
+
+        verify(challengeParticipantRepository).save(any(ChallengeParticipant.class));
     }
 
 }

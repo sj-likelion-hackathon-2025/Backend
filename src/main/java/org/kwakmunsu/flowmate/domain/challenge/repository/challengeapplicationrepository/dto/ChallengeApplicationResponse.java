@@ -1,11 +1,14 @@
-package org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto;
+package org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.kwakmunsu.flowmate.domain.member.entity.Grade;
 
 @Builder
-public record ChallengeApplyResponse(
+public record ChallengeApplicationResponse(
+        @Schema(description = "챌린지 신청 id", example = "1")
+        Long applicationId,
+
         @Schema(description = "신청자 id", example = "1")
         Long memberId,
 

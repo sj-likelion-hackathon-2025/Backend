@@ -22,11 +22,11 @@ import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
 import org.kwakmunsu.flowmate.global.entity.BaseTimeEntity;
 
-@Table(name = "challenge_apply")
+@Table(name = "challenge_application")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ChallengeApply extends BaseTimeEntity {
+public class ChallengeApplication extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,19 +47,19 @@ public class ChallengeApply extends BaseTimeEntity {
     private ApprovalStatus status;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private ChallengeApply(Member member, Long challengeId, String message) {
+    private ChallengeApplication(Member member, Long challengeId, String message) {
         this.member = member;
         this.challengeId = challengeId;
         this.message = message;
         this.status = ApprovalStatus.PENDING;
     }
 
-    public static ChallengeApply create(Member member, Long challengeId, String message) {
+    public static ChallengeApplication create(Member member, Long challengeId, String message) {
         requireNonNull(member);
         requireNonNull(challengeId);
         requireNonNull(member);
 
-        return ChallengeApply.builder()
+        return ChallengeApplication.builder()
                 .member(member)
                 .challengeId(challengeId)
                 .message(message)

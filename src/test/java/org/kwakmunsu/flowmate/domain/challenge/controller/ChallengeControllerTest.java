@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -14,15 +15,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequest;
+import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplicationApprovalRequest;
+import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplicationRequest;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyResponse;
-import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
-import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengePreviewResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationResponse;
+import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
+import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
+import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
 import org.kwakmunsu.flowmate.domain.member.entity.Grade;
 import org.kwakmunsu.flowmate.security.TestMember;
 import org.kwakmunsu.flowmate.security.TestSecurityConfig;
@@ -86,7 +89,7 @@ class ChallengeControllerTest {
     @DisplayName("챌린지 신청을 한다")
     @Test
     void apply() throws Exception {
-        ChallengeApplyRequest request = new ChallengeApplyRequest("파이팅 나는 성공할거야 아자아자 파이팅!!!!!");
+        ChallengeApplicationRequest request = new ChallengeApplicationRequest("파이팅 나는 성공할거야 아자아자 파이팅!!!!!");
         Long challengeId = 1L;
 
         mockMvc.perform(
@@ -102,7 +105,7 @@ class ChallengeControllerTest {
     @DisplayName("메세지가 20글자 이하여서 신청에 실패한다")
     @Test
     void failedApply() throws Exception {
-        ChallengeApplyRequest request = new ChallengeApplyRequest("invaild");
+        ChallengeApplicationRequest request = new ChallengeApplicationRequest("invaild");
         Long challengeId = 1L;
 
         mockMvc.perform(
@@ -118,7 +121,7 @@ class ChallengeControllerTest {
     @DisplayName("챌린지 신청 목록을 조회한다")
     @Test
     void getChallengeApplies() throws Exception {
-        ChallengeApplyListResponse response = new ChallengeApplyListResponse(List.of(ChallengeApplyResponse.builder()
+        ChallengeApplicationListResponse response = new ChallengeApplicationListResponse(List.of(ChallengeApplicationResponse.builder()
                 .memberId(1L)
                 .name("곽태풍")
                 .grade(Grade.ROOKIE)
@@ -137,6 +140,22 @@ class ChallengeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.responses").isArray())
                 .andExpect(jsonPath("$.responses.length()").value(1));
+    }
+
+    @TestMember
+    @DisplayName("신청 여부를 결정한다")
+    @Test
+    void approveChallengeApply() throws Exception {
+        Long challengeId = 1L;
+        Long applicationId = 1L;
+        ChallengeApplicationApprovalRequest request = new ChallengeApplicationApprovalRequest(ApprovalStatus.APPROVED);
+        mockMvc.perform(
+                        patch("/challenges/" + "{challengeId}/applications/{applicationId}", challengeId, applicationId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @TestMember

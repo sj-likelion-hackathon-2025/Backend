@@ -21,7 +21,7 @@ class MemberTest {
     void createMember() {
         assertThat(member.getName()).isEqualTo("kwak");
         assertThat(member.getPoint()).isZero();
-        assertThat(member.getRole()).isEqualTo(Role.MEMBER);
+        assertThat(member.getRole()).isEqualTo(Role.GUEST);
     }
 
     @DisplayName("회원 기본 정보를 업데이트한다.")
