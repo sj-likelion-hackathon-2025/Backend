@@ -6,6 +6,7 @@ import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
 @Builder
 public record ChallengeApplicationApprovalServiceRequest(
         ApprovalStatus status,
+        Long challengeId,
         Long applicationId,
         Long leaderId
 ) {
