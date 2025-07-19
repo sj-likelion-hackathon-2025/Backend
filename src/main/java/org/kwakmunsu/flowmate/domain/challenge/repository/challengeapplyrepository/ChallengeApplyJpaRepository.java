@@ -16,7 +16,7 @@ public interface ChallengeApplyJpaRepository extends JpaRepository<ChallengeAppl
     boolean existsByMemberIdAndChallengeId(Long memberId, Long challengeId);
 
     @Query("select new org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto."
-            + "ChallengeApplyResponse(m.id, m.name, m.grade, c.message) " +
+            + "ChallengeApplyResponse(c.id, m.id, m.name, m.grade, c.message) " +
             "from ChallengeApply c join c.member m " +
             "where c.challengeId = :challengeId and c.status = :status"
     )

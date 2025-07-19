@@ -6,6 +6,9 @@ import org.kwakmunsu.flowmate.domain.member.entity.Grade;
 
 @Builder
 public record ChallengeApplyResponse(
+        @Schema(description = "챌린지 신청 id", example = "1")
+        Long challengeApplyId,
+
         @Schema(description = "신청자 id", example = "1")
         Long memberId,
 
