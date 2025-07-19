@@ -11,7 +11,7 @@ import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyreposito
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.global.annotation.AuthMember;

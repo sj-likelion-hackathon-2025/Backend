@@ -22,7 +22,7 @@ import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
 import org.kwakmunsu.flowmate.global.annotation.ApiExceptions;
 import org.springframework.http.MediaType;

@@ -11,7 +11,7 @@ import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeParticipant;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeRole;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeReadDomainRequest;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challengeParticipant.ChallengeParticipantRepository;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
 import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 import org.kwakmunsu.flowmate.domain.member.repository.member.MemberRepository;

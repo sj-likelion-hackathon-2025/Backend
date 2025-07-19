@@ -3,7 +3,7 @@ package org.kwakmunsu.flowmate.domain.challenge.repository.challenge;
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.flowmate.domain.challenge.entity.Challenge;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeReadDomainRequest;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.global.exception.NotFoundException;
 import org.kwakmunsu.flowmate.global.exception.dto.ErrorStatus;
 import org.springframework.stereotype.Repository;
