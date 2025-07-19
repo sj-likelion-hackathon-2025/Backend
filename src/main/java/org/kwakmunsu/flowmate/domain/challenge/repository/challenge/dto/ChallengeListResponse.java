@@ -1,4 +1,4 @@
-package org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge;
+package org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;

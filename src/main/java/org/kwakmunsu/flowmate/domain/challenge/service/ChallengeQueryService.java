@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.ChallengeRepository;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.ChallengeApplyRepository;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
 import org.kwakmunsu.flowmate.global.exception.UnAuthenticationException;
