@@ -16,11 +16,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequest;
+import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplicationRequest;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeDetailResponse;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
@@ -68,7 +68,7 @@ public abstract class ChallengeDocsController {
             required = true,
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ChallengeApplyRequest.class)
+                    schema = @Schema(implementation = ChallengeApplicationRequest.class)
             )
     )
     @ApiResponse(
@@ -81,7 +81,7 @@ public abstract class ChallengeDocsController {
             OVER_CAPACITY_CHALLENGE,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<Void> apply(ChallengeApplyRequest request, Long challengeId, Long memberId);
+    public abstract ResponseEntity<Void> apply(ChallengeApplicationRequest request, Long challengeId, Long memberId);
 
     @Operation(
             summary = "챌린지 신청 목록 조회 - JWT O ",
@@ -92,7 +92,7 @@ public abstract class ChallengeDocsController {
             description = "챌린지 신청 목록 조회 성공",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ChallengeApplyListResponse.class)
+                    schema = @Schema(implementation = ChallengeApplicationListResponse.class)
             )
     )
     @ApiExceptions(values = {
@@ -100,7 +100,7 @@ public abstract class ChallengeDocsController {
             UNAUTHORIZED_ERROR,
             INTERNAL_SERVER_ERROR
     })
-    public abstract ResponseEntity<ChallengeApplyListResponse> getApplyList(
+    public abstract ResponseEntity<ChallengeApplicationListResponse> getApplyList(
             @Parameter(
                     name = "challengeId",
                     description = "신청자 목록을 조회할 챌린지 ID",

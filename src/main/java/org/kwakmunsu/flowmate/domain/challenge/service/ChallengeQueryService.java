@@ -2,8 +2,8 @@ package org.kwakmunsu.flowmate.domain.challenge.service;
 
 import lombok.RequiredArgsConstructor;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.ChallengeRepository;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.ChallengeApplyRepository;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.ChallengeApplicationRepository;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
@@ -16,16 +16,16 @@ import org.springframework.stereotype.Service;
 public class ChallengeQueryService {
 
     private final ChallengeRepository challengeRepository;
-    private final ChallengeApplyRepository challengeApplyRepository;
+    private final ChallengeApplicationRepository challengeApplicationRepository;
 
     public ChallengeListResponse readAll(ChallengeReadServiceRequest request) {
         return challengeRepository.findAll(request.toDomainRequest());
     }
 
-    public ChallengeApplyListResponse readApplyList(Long challengeId, Long memberId) {
+    public ChallengeApplicationListResponse readApplyList(Long challengeId, Long memberId) {
         validateLeader(challengeId, memberId);
 
-        return challengeApplyRepository.findByChallengeIdAndStatus(challengeId, ApprovalStatus.PENDING);
+        return challengeApplicationRepository.findByChallengeIdAndStatus(challengeId, ApprovalStatus.PENDING);
     }
 
     private void validateLeader(Long challengeId, Long memberId) {

@@ -9,7 +9,7 @@ import org.kwakmunsu.flowmate.domain.member.entity.ApprovalStatus;
 import org.kwakmunsu.flowmate.domain.member.entity.Member;
 import org.kwakmunsu.flowmate.domain.member.entity.MemberFixture;
 
-class ChallengeApplyTest {
+class ChallengeApplicationTest {
 
     @DisplayName("챌린지 신청 생성")
     @Test
@@ -17,7 +17,7 @@ class ChallengeApplyTest {
         Member member = MemberFixture.createMember();
         Long challengeId = 1L;
 
-        ChallengeApply apply = ChallengeApply.create(member, challengeId, "message");
+        ChallengeApplication apply = ChallengeApplication.create(member, challengeId, "message");
 
         assertThat(apply.getMember()).isNotNull();
         assertThat(apply.getStatus()).isEqualTo(ApprovalStatus.PENDING);
@@ -30,7 +30,7 @@ class ChallengeApplyTest {
         Member member = MemberFixture.createMember();
         Long challengeId = 1L;
 
-        ChallengeApply apply = ChallengeApply.create(member, challengeId, "message");
+        ChallengeApplication apply = ChallengeApplication.create(member, challengeId, "message");
         apply.approve();
         assertThat(apply.getStatus()).isEqualTo(ApprovalStatus.APPROVED);
 

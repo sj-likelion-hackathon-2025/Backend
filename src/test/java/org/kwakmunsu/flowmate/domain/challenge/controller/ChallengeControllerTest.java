@@ -14,10 +14,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplyRequest;
+import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeApplicationRequest;
 import org.kwakmunsu.flowmate.domain.challenge.controller.dto.ChallengeCreateRequest;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeCommandService;
 import org.kwakmunsu.flowmate.domain.challenge.service.ChallengeQueryService;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
@@ -86,7 +86,7 @@ class ChallengeControllerTest {
     @DisplayName("챌린지 신청을 한다")
     @Test
     void apply() throws Exception {
-        ChallengeApplyRequest request = new ChallengeApplyRequest("파이팅 나는 성공할거야 아자아자 파이팅!!!!!");
+        ChallengeApplicationRequest request = new ChallengeApplicationRequest("파이팅 나는 성공할거야 아자아자 파이팅!!!!!");
         Long challengeId = 1L;
 
         mockMvc.perform(
@@ -102,7 +102,7 @@ class ChallengeControllerTest {
     @DisplayName("메세지가 20글자 이하여서 신청에 실패한다")
     @Test
     void failedApply() throws Exception {
-        ChallengeApplyRequest request = new ChallengeApplyRequest("invaild");
+        ChallengeApplicationRequest request = new ChallengeApplicationRequest("invaild");
         Long challengeId = 1L;
 
         mockMvc.perform(
@@ -118,7 +118,7 @@ class ChallengeControllerTest {
     @DisplayName("챌린지 신청 목록을 조회한다")
     @Test
     void getChallengeApplies() throws Exception {
-        ChallengeApplyListResponse response = new ChallengeApplyListResponse(List.of(ChallengeApplyResponse.builder()
+        ChallengeApplicationListResponse response = new ChallengeApplicationListResponse(List.of(ChallengeApplicationResponse.builder()
                 .memberId(1L)
                 .name("곽태풍")
                 .grade(Grade.ROOKIE)

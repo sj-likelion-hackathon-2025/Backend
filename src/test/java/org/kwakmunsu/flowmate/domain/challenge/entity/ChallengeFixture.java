@@ -5,7 +5,7 @@ import static org.kwakmunsu.flowmate.global.util.TimeConverter.stringToDate;
 import org.kwakmunsu.flowmate.domain.challenge.entity.dto.ChallengeCreateDomainRequest;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.ChallengeListType;
 import org.kwakmunsu.flowmate.domain.challenge.entity.enums.SortBy;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.ChallengeApplyServiceRequest;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challengeApplication.ChallengeApplicationServiceRequest;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeCreateServiceRequest;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
 import org.kwakmunsu.flowmate.domain.member.entity.InterestCategory;
@@ -85,13 +85,13 @@ public class ChallengeFixture {
     }
 
 
-    public static ChallengeApplyServiceRequest createChallengeApplyServiceRequest(String message) {
-        return new ChallengeApplyServiceRequest(message, 1L, 1L);
+    public static ChallengeApplicationServiceRequest createChallengeApplyServiceRequest(String message) {
+        return new ChallengeApplicationServiceRequest(message, 1L, 1L);
     }
 
-    public static ChallengeApplyServiceRequest createChallengeApplyServiceRequest(Long challengeId, Long memberId,
+    public static ChallengeApplicationServiceRequest createChallengeApplyServiceRequest(Long challengeId, Long memberId,
             String message) {
-        return new ChallengeApplyServiceRequest(message, challengeId, memberId);
+        return new ChallengeApplicationServiceRequest(message, challengeId, memberId);
     }
 
 }

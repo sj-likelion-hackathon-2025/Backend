@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.kwakmunsu.flowmate.domain.challenge.entity.Challenge;
 import org.kwakmunsu.flowmate.domain.challenge.entity.ChallengeFixture;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.ChallengeRepository;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.ChallengeApplyRepository;
-import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplyrepository.dto.ChallengeApplyListResponse;
-import org.kwakmunsu.flowmate.domain.challenge.service.dto.ChallengeApplyServiceRequest;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.ChallengeApplicationRepository;
+import org.kwakmunsu.flowmate.domain.challenge.repository.challengeapplicationrepository.dto.ChallengeApplicationListResponse;
+import org.kwakmunsu.flowmate.domain.challenge.service.dto.challengeApplication.ChallengeApplicationServiceRequest;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeCreateServiceRequest;
 import org.kwakmunsu.flowmate.domain.challenge.repository.challenge.dto.ChallengeListResponse;
 import org.kwakmunsu.flowmate.domain.challenge.service.dto.challenge.ChallengeReadServiceRequest;
@@ -36,7 +36,7 @@ class ChallengeQueryServiceTest {
     MemberRepository memberRepository;
 
     @Autowired
-    ChallengeApplyRepository challengeApplyRepository;
+    ChallengeApplicationRepository challengeApplicationRepository;
 
     @Autowired
     ChallengeCommandService challengeCommandService;
@@ -80,11 +80,11 @@ class ChallengeQueryServiceTest {
         ChallengeCreateServiceRequest challengeCreateServiceRequest = ChallengeFixture.createChallengeCreateServiceRequest();
         Long challengeId = challengeCommandService.create(challengeCreateServiceRequest);
 
-        ChallengeApplyServiceRequest challengeApplyServiceRequest = ChallengeFixture.createChallengeApplyServiceRequest(
+        ChallengeApplicationServiceRequest challengeApplicationServiceRequest = ChallengeFixture.createChallengeApplyServiceRequest(
                 challengeId, 1L, "이번엔 꼭 성공하겠습니다. 파이팅 파이팅 파이팅" );
-        challengeCommandService.apply(challengeApplyServiceRequest);
+        challengeCommandService.apply(challengeApplicationServiceRequest);
 
-        ChallengeApplyListResponse response = challengeQueryService.readApplyList(challengeId, 1L);
+        ChallengeApplicationListResponse response = challengeQueryService.readApplyList(challengeId, 1L);
 
         assertThat(response).isNotNull();
         assertThat(response.responses().getFirst().message()).isEqualTo("이번엔 꼭 성공하겠습니다. 파이팅 파이팅 파이팅");
@@ -99,9 +99,9 @@ class ChallengeQueryServiceTest {
         ChallengeCreateServiceRequest challengeCreateServiceRequest = ChallengeFixture.createChallengeCreateServiceRequest(member.getId());
         Long challengeId = challengeCommandService.create(challengeCreateServiceRequest);
 
-        ChallengeApplyServiceRequest challengeApplyServiceRequest = ChallengeFixture.createChallengeApplyServiceRequest(
+        ChallengeApplicationServiceRequest challengeApplicationServiceRequest = ChallengeFixture.createChallengeApplyServiceRequest(
                 challengeId, 1L, "이번엔 꼭 성공하겠습니다. 파이팅 파이팅 파이팅" );
-        challengeCommandService.apply(challengeApplyServiceRequest);
+        challengeCommandService.apply(challengeApplicationServiceRequest);
 
         Assertions.assertThatThrownBy(() -> challengeQueryService.readApplyList(challengeId, 1L))
             .isInstanceOf(UnAuthenticationException.class);
